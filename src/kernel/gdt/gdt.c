@@ -38,7 +38,7 @@ void load_gdt(GDTPtr* gdtr) {
 }
 
 // Initialize the GDT with the entries
-void init_gdt() {
+void gdt_init() {
     // Null Descriptor (Index 0)
     gdt[0] = (GDTEntry){0};
 
