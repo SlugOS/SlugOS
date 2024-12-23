@@ -1,0 +1,2 @@
+# SlugOS
+A minimal OS
