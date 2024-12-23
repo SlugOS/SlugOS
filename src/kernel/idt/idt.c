@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
-#include <vga.h>
+#include <stdio.h>
 
 // Function prototype for remapping PICs
 void PIC_remap(int offset1, int offset2);
@@ -38,6 +38,11 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 
 extern void* isr_stub_table[];
 
+void test() {
+    printf("Hello, interrupt world!\n");
+    return;
+}
+
 void idt_init() {
     // Remap the PICs to use 0x20 for the master PIC and 0x28 for the slave PIC
     PIC_remap(0x20, 0x28);
@@ -50,6 +55,8 @@ void idt_init() {
         vectors[vector] = true;
     }
 
+    // Set up the int $80 call
+    idt_set_descriptor(0x80, test, 0x8E); // System call interrupt handler
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // Load the new IDT
     __asm__ volatile ("sti"); // Set the interrupt flag
 }
