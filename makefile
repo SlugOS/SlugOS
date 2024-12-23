@@ -1,6 +1,6 @@
 ALL: grub
 
-CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Isrc/headers
 LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
 
 SRC_C = $(shell find src -name "*.c")
@@ -27,7 +27,7 @@ obj/%.o: src/%.c
 
 obj/%.o: src/%.s
 	mkdir -p $(dir $@)
-	i686-elf-as $< -o $@
+	nasm -felf32 $< -o $@
 
 clean:
 	rm -rf obj/* slugos.elf slugos.iso
