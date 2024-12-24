@@ -55,20 +55,10 @@ _start:
 	; in assembly as languages such as C cannot function without a stack.
 	mov esp, stack_top
 
-	; This is a good place to initialize crucial processor state before the
-	; high-level kernel is entered. It's best to minimize the early
-	; environment where crucial features are offline. Note that the
-	; processor is not fully initialized yet: Features such as floating
-	; point instructions and instruction set extensions are not initialized
-	; yet. The GDT should be loaded here. Paging should be enabled here.
-	; C++ features such as global constructors and exceptions will require
-	; runtime support to work as well.
-	extern terminal_initialize
-	extern idt_init
-	extern gdt_init
-	call terminal_initialize
-	call gdt_init
-	call gdt_init
+	; This is a good place to put our early init code
+	; This function will handle the basic init for everything that our kernel needs to function
+	extern _init
+	call _init
 
 	; Enter the high-level kernel. The ABI requires the stack is 16-byte
 	; aligned at the time of the call instruction (which afterwards pushes
