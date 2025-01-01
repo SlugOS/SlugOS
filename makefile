@@ -1,6 +1,6 @@
 ALL: grub
 
-CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Isrc/headers
+CFLAGS = -c -std=gnu99 -ffreestanding -Wall -Wextra -fstack-protector-all -Isrc/headers
 LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
 
 SRC_C = $(shell find src -name "*.c")
