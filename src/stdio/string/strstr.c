@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stddef.h>
 
 char *strstr(const char *haystack, const char *needle) {
     if (*needle == '\0') {

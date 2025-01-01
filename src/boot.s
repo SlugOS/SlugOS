@@ -29,14 +29,19 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
+	; Disable interrupts since those should be enabled in our kernel
+	cli
+
 	; To set up a stack, we set the esp register to point to the top of our
 	; stack (as it grows downwards on x86 systems). This is necessarily done
 	; in assembly as languages such as C cannot function without a stack.
 	mov esp, stack_top
 
 	; Early OS init
-	extern terminal_initialize
+	extern terminal_initialize ; the VGA text mode
+	extern init_allocator ; Our memory allocator
 	call terminal_initialize
+	call init_allocator
 	
 	; Call the kernel
 	extern kernel_main
