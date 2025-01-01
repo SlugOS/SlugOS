@@ -14,10 +14,3 @@ void *calloc(size_t num, size_t size);
 void *realloc(void *ptr, size_t size);
 // Free memory
 void free(void *ptr);
-
-/*
-Misc core system functions like sleep();
-*/
-
-// Sleep for the specified number of milliseconds
-void sleep(uint32_t milliseconds);
