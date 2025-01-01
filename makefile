@@ -1,6 +1,6 @@
 ALL: grub
 
-CFLAGS = -c -std=gnu99 -ffreestanding -Wall -Wextra -fstack-protector-all -Isrc/headers
+CFLAGS = -c -g -std=gnu99 -ffreestanding -Wall -Wextra -fstack-protector-all -Isrc/headers
 LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
 
 SRC_C = $(shell find src -name "*.c")
@@ -13,7 +13,7 @@ OBJS = $(OBJ_C) $(OBJ_ASM)
 grub: build
 	mkdir -p iso/boot/grub
 	cp grub/grub.cfg iso/boot/grub/grub.cfg
-	mv slugos.elf iso/boot/slugos.elf
+	cp slugos.elf iso/boot/slugos.elf
 	grub-mkrescue -o slugos.iso iso
 	rm -rf iso
 
@@ -34,3 +34,6 @@ clean:
 
 run:
 	qemu-system-i386 -cdrom slugos.iso
+
+debug:
+	qemu-system-i386 -cdrom slugos.iso -S -s & gdb -ex "target remote localhost:1234" -ex "file slugos.elf"
