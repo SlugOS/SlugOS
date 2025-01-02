@@ -39,13 +39,11 @@ _start:
 
 	; Early OS init
 	extern gdt_init ; This is our GDT which handles code segments and such
-	extern pic_init ; The PIC will handle everything for us so we do not need to poll each device
 	extern idt_init ; This is our IDT which will handle interrupts
 	extern terminal_initialize ; the VGA text mode
 	extern init_allocator ; Our memory allocator
 	
 	call gdt_init
-	call pic_init
 	call idt_init
 	call terminal_initialize
 	call init_allocator
