@@ -1,39 +1,47 @@
-ALL: grub
+# Makefile for assembling, compiling, and linking the kernel
 
-CFLAGS = -c -g -std=gnu99 -ffreestanding -Wall -Wextra -fstack-protector-all -Isrc/headers
-LDFLAGS = -ffreestanding -O2 -nostdlib -lgcc
+# Toolchain
+AS = arm-none-eabi-as
+CC = arm-none-eabi-gcc
+LD = arm-none-eabi-ld
+QEMU = qemu-system-arm
 
-SRC_C = $(shell find src -name "*.c")
-SRC_ASM = $(shell find src -name "*.s")
-OBJ_C = $(patsubst src/%,obj/%, $(SRC_C:.c=.o))
-OBJ_ASM = $(patsubst src/%,obj/%, $(SRC_ASM:.s=.o))
+# File paths
+SRC_DIR = src
+OBJ_DIR = obj
+OUT_DIR = out
+KERNEL_NAME = kernel
+LINKER_SCRIPT = $(SRC_DIR)/link.ld
 
-OBJS = $(OBJ_C) $(OBJ_ASM)
+# Flags
+CFLAGS = -Wall -Wextra -Werror -nostdlib -nostartfiles -ffreestanding -std=gnu99 -c
+LDFLAGS = -T $(LINKER_SCRIPT) -o $(OUT_DIR)/$(KERNEL_NAME)
 
-grub: build
-	mkdir -p iso/boot/grub
-	cp grub/grub.cfg iso/boot/grub/grub.cfg
-	cp slugos.elf iso/boot/slugos.elf
-	grub-mkrescue -o slugos.iso iso
-	rm -rf iso
+# Automatically find all source files
+ASMS = $(wildcard $(SRC_DIR)/*.s)
+CS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(ASMS:$(SRC_DIR)/%.s=$(OBJ_DIR)/%.o) $(CS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-build: $(OBJS)
-	mkdir -p obj
-	i686-elf-gcc -T src/linker.ld -o slugos.elf $(LDFLAGS) $(OBJS)
+# Default target
+all: $(OUT_DIR)/$(KERNEL_NAME)
 
-obj/%.o: src/%.c
-	mkdir -p $(dir $@)
-	i686-elf-gcc $(CFLAGS) -o $@ -c $<
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
+	@mkdir -p $(OBJ_DIR)
+	$(AS) -o $@ $<
 
-obj/%.o: src/%.s
-	mkdir -p $(dir $@)
-	nasm -felf32 $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(OUT_DIR)/$(KERNEL_NAME): $(OBJS)
+	@mkdir -p $(OUT_DIR)
+	$(LD) $(LDFLAGS) $(OBJS)
+
+# Boot the kernel with QEMU
+run: $(OUT_DIR)/$(KERNEL_NAME)
+	$(QEMU) -machine integratorcp -m 128 -kernel $(OUT_DIR)/$(KERNEL_NAME) -serial stdio
 
 clean:
-	rm -rf obj/* slugos.elf slugos.iso
+	rm -rf $(OBJ_DIR) $(OUT_DIR)
 
-run:
-	qemu-system-i386 -cdrom slugos.iso
-
-debug:
-	qemu-system-i386 -cdrom slugos.iso -S -s & gdb -ex "target remote localhost:1234" -ex "file slugos.elf"
+.PHONY: all run clean
