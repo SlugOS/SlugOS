@@ -11,10 +11,10 @@ SRC_DIR = src
 OBJ_DIR = obj
 OUT_DIR = out
 KERNEL_NAME = kernel
-LINKER_SCRIPT = $(SRC_DIR)/link.ld
+LINKER_SCRIPT = link.ld
 
 # Flags
-CFLAGS = -Wall -Wextra -Werror -nostdlib -nostartfiles -ffreestanding -std=gnu99 -c
+CFLAGS = -Iheaders -Wall -Wextra -Werror -nostdlib -nostartfiles -ffreestanding -std=gnu99 -c
 LDFLAGS = -T $(LINKER_SCRIPT) -o $(OUT_DIR)/$(KERNEL_NAME)
 
 # Automatically find all source files
@@ -39,7 +39,7 @@ $(OUT_DIR)/$(KERNEL_NAME): $(OBJS)
 
 # Boot the kernel with QEMU
 run: $(OUT_DIR)/$(KERNEL_NAME)
-	$(QEMU) -machine integratorcp -m 128 -kernel $(OUT_DIR)/$(KERNEL_NAME) -serial stdio
+	$(QEMU) -machine integratorcp -m 128 -kernel $(OUT_DIR)/$(KERNEL_NAME)
 
 clean:
 	rm -rf $(OBJ_DIR) $(OUT_DIR)
