@@ -2,4 +2,5 @@
 *.elf
 *.efi
 *.o
+posix-uefi/
 kernel/uefi
