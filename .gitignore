@@ -1,4 +1,5 @@
 .vscode
-obj
-*.iso
 *.elf
+*.efi
+*.o
+kernel/uefi
