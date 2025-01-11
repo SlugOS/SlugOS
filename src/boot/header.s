@@ -13,13 +13,6 @@ header_start:
 .long LEN                  /* Header length */
 .long CHECKSUM             /* Header checksum */
 
-/* Framebuffer Tag */
-.long 0x5                  /* Framebuffer Tag type (0x5 in hex) */
-.long 16                   /* Size of the tag (16 bytes total) */
-.long 800                  /* Desired framebuffer width (800 pixels) */
-.long 600                  /* Desired framebuffer height (600 pixels) */
-.long 24                   /* Desired bits per pixel (24-bit color, RGB) */
-
 .long 0                    /* End tag, No specific tag to set here */
 .long 8                    /* End tag length for alignment */
 header_end:
