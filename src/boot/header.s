@@ -12,25 +12,14 @@ header_start:
 .long ARCH                 /* Architecture */
 .long LEN                  /* Header length */
 .long CHECKSUM             /* Header checksum */
+
+/* Framebuffer Tag */
+.long 0x5                  /* Framebuffer Tag type (0x5 in hex) */
+.long 16                   /* Size of the tag (16 bytes total) */
+.long 800                  /* Desired framebuffer width (800 pixels) */
+.long 600                  /* Desired framebuffer height (600 pixels) */
+.long 24                   /* Desired bits per pixel (24-bit color, RGB) */
+
 .long 0                    /* End tag, No specific tag to set here */
 .long 8                    /* End tag length for alignment */
 header_end:
-
-/* Set up stack */
-.section .bss
-.align 16
-.global stack_bottom
-stack_bottom:
-    .skip 16384  /* Allocate 16 KiB for stack space */
-stack_top:
-
-/* _start is the entry point, which jumps into C main kernel (kernel_main) */
-.section .text
-.global _start
-.type _start, @function
-_start:
-    /* Set up the stack */
-    mov stack_top, %esp      /* Load the stack pointer with the top of the stack */
-    
-    /* Call the kernel main function */
-    call kernel_main
