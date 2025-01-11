@@ -6,9 +6,9 @@ ENTRY(_start)
    kernel image. */
 SECTIONS
 {
-	/* Begin putting sections at 1 MiB, a conventional place for kernels to be
+	/* Begin putting sections at 2 MiB, a conventional place for kernels to be
 	   loaded at by the bootloader. */
-	. = 1M;
+	. = 2M;
 
 	/* First put the multiboot2 header, as it is required to be put very early
 	   early in the image or the bootloader won't recognize the file format.
