@@ -5,9 +5,6 @@
 .set LEN,      (header_end - header_start)    /* Length of the header */
 .set CHECKSUM, 0x100000000 - (MAGIC + ARCH + LEN)  /* Checksum */
 
-/* Set the framebuffer flag for requesting framebuffer info */
-.set FRAMEBUFFER_FLAG, 0x00010000
-
 .section .multiboot2
 header_start:
 .align 4
@@ -15,7 +12,6 @@ header_start:
 .long ARCH                 /* Architecture */
 .long LEN                  /* Header length */
 .long CHECKSUM             /* Header checksum */
-.long FRAMEBUFFER_FLAG     /* Framebuffer flag (request framebuffer) */
 .long 0                    /* End tag, No specific tag to set here */
 .long 8                    /* End tag length for alignment */
 header_end:

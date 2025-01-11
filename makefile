@@ -3,13 +3,13 @@ AS = i686-elf-as
 CC = i686-elf-gcc
 
 # C flags
-CFLAGS = -g -c -std=gnu99 -ffreestanding -Wall -Wextra
+CFLAGS = -g -c -std=gnu99 -ffreestanding -Wall -Wextra -Isrc/headers
 
 # Linker flags
 LDFLAGS = -ffreestanding -O2 -nostdlib
 
 # Get all .s and .c files in src/
-SRCS = $(wildcard src/*.s) $(wildcard src/*.c)
+SRCS = $(shell find src -name "*.s" -o -name "*.c")
 
 OVMF = /usr/share/ovmf/x64/OVMF.4m.fd
 
