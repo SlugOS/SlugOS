@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdlib.h>
 
 #if UINT32_MAX == UINTPTR_MAX
 #define STACK_CHK_GUARD 0xe2dee396
@@ -12,4 +11,5 @@ uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 __attribute__((noreturn))
 void __stack_chk_fail(void) {
     asm("cli; hlt"); // This will run cli to disable interrupts then hlt to halt the CPU (therefore the OS)
+    while(1);
 }

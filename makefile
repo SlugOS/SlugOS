@@ -11,8 +11,6 @@ LDFLAGS = -ffreestanding -O2 -nostdlib
 # Get all .s and .c files in src/
 SRCS = $(shell find src -name "*.s" -o -name "*.c")
 
-OVMF = /usr/share/ovmf/x64/OVMF.4m.fd
-
 # The kernel binary we compile
 TARGET=slug.elf
 
@@ -39,8 +37,8 @@ grub:
 	grub-mkrescue img/ -o slugos.img
 
 run: grub
-	qemu-system-x86_64 -bios $(OVMF) -hda slugos.img
+	qemu-system-x86_64 -hda slugos.img
 
 # Debug target: start kernel in GDB for debugging
 debug: grub
-	qemu-system-x86_64 -s -S -bios $(OVMF) -hda slugos.img
+	qemu-system-x86_64 -s -S -hda slugos.img
