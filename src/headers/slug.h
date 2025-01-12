@@ -41,24 +41,27 @@ enum vga_color {
     VGA_COLOR_WHITE = 15,
 };
 
+// Write a single character to the VGA text mode used for user output
 void putchar(char c);
+// Write a string to the VGA text mode used for user output
 void writestring(const char* data);
+// Set the VGA text mode text color with the vga_color enum used for logging
 void terminal_setcolor(uint8_t color);
 
-// Serial stuff
+// Print to the serial port
 void print_serial(char* data);
 
-// Output to ports needed for stuff like a PS/2 driver or interacting with pretty much any hardware
-
-// 8bit data being recivied/sent
+// 8bit data being sent to a port
 void outb(uint16_t port, uint8_t val);
+// 8bit data being recivied from a port
 uint8_t inb(uint16_t port);
 
-// 16bit data being recivied/sent
+// 16bit data being sent to a port
 void outw(uint16_t port, uint16_t val);
+// 16bit data being recivied from a port
 uint16_t inw(uint16_t port);
 
-// Impercise wait
+// Impercise wait about 1 to 4 nanoseconds
 void io_wait(void);
 
 // Stack Frame
