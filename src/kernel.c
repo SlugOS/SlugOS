@@ -1,6 +1,6 @@
 #include <slug.h>
 
-slug_status kernel_main() {
+void kernel_main() {
+    writestring("Hello, World!\n");
     while(1);
-    return SLUG_ERROR; // since we should not return
 }

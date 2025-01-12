@@ -16,3 +16,10 @@ SLUG_UNSUPPORTED: When something like hardware or some other thing is not suppor
 #define SLUG_SUCCESS 0
 #define SLUG_ERROR 1
 #define SLUG_UNSUPPORTED 2
+
+// Output to terminal
+
+void putchar(char c);
+void writestring(const char* data);
+
+void printf(const char *fmt, ...);  // A printf implementation
