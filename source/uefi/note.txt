@@ -1,1 +1,0 @@
-All of the code within this folder (source/uefi) is copyrighted and belongs to https://gitlab.com/bztsrc/posix-uefi/ and its developers

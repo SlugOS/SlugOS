@@ -1,6 +1,4 @@
-.vscode
 *.elf
-*.efi
 *.o
-posix-uefi/
-kernel/uefi
+*.img
+img/
