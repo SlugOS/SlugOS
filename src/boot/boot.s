@@ -52,9 +52,7 @@ _start:
 	*/
 	mov $stack_top, %esp
 
-	call terminal_initialize # This code allows us to print to the screen by setting some variables
-	call init_cpu # This code handles the TSS and the GDT which allow us to go to the userspace aka ring 3
-	call idt_init # This code will handle initializing interrupts which allow us to not have to constantly poll each bit of hardware and instead they send an interrupt
+	call _init # the code that inits most of our OS
 	call kernel_main # This is our main kernel entry point
 	
 	cli # Disable interrupts so we do not get called back into the kernels code

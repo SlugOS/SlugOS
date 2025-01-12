@@ -1,26 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
-
-/* Hardware text mode color constants. */
-enum vga_color {
-    VGA_COLOR_BLACK = 0,
-    VGA_COLOR_BLUE = 1,
-    VGA_COLOR_GREEN = 2,
-    VGA_COLOR_CYAN = 3,
-    VGA_COLOR_RED = 4,
-    VGA_COLOR_MAGENTA = 5,
-    VGA_COLOR_BROWN = 6,
-    VGA_COLOR_LIGHT_GREY = 7,
-    VGA_COLOR_DARK_GREY = 8,
-    VGA_COLOR_LIGHT_BLUE = 9,
-    VGA_COLOR_LIGHT_GREEN = 10,
-    VGA_COLOR_LIGHT_CYAN = 11,
-    VGA_COLOR_LIGHT_RED = 12,
-    VGA_COLOR_LIGHT_MAGENTA = 13,
-    VGA_COLOR_LIGHT_BROWN = 14,
-    VGA_COLOR_WHITE = 15,
-};
+#include <slug.h>
 
 /* VGA text buffer memory location. */
 #define VGA_MEMORY ((uint16_t*) 0xB8000)
@@ -45,8 +26,14 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
     return (uint16_t) uc | (uint16_t) color << 8;
 }
 
+static void disable_cursor(void) {
+	outb(0x3D4, 0x0A);
+	outb(0x3D5, 0x20);
+}
+
 /* Terminal initialization: clears the screen and sets initial state. */
 void terminal_initialize(void) {
+    disable_cursor(); // Disable the cursor to make it look nice
     terminal_row = 0;
     terminal_column = 0;
     terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
@@ -90,18 +77,19 @@ void terminal_scroll() {
 /* Output a character to the terminal. */
 void putchar(char c) {
     if (c == '\n') {
-        terminal_row++;
-        terminal_column = 0;
+        terminal_column = 0; // Reset column to the start of the line
+        terminal_row++;      // Move to the next row
         if (terminal_row >= VGA_HEIGHT) {
             terminal_scroll();
         }
-        return;
-    }
-    terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-    if (++terminal_column == VGA_WIDTH) {
-        terminal_column = 0;
-        if (++terminal_row >= VGA_HEIGHT) {
-            terminal_scroll();
+    } else {
+        terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+        if (++terminal_column == VGA_WIDTH) {
+            terminal_column = 0;  // Wrap to the next line
+            terminal_row++;
+            if (terminal_row >= VGA_HEIGHT) {
+                terminal_scroll();
+            }
         }
     }
 }

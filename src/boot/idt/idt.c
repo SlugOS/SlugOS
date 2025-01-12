@@ -1,3 +1,4 @@
+#include <slug.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -35,7 +36,12 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 
 extern void* isr_stub_table[];
 
-void idt_init() {
+uint8_t key_handler() {
+    uint8_t scancode = inb(0x60);
+    return scancode;
+}
+
+void idt_init(void) {
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
 
@@ -43,7 +49,7 @@ void idt_init() {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
-
+    idt_set_descriptor(33, key_handler, 0x8E);
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag
 }

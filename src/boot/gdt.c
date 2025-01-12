@@ -49,10 +49,10 @@ tss_entry tss;
 uint8_t kernel_stack[KERNEL_STACK_SIZE];
 
 // Function prototypes
-void load_gdt();
+void load_gdt(void);
 void load_tss(uint16_t tss_segment);
 void set_gdt_entry(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity);
-void init_gdt();
+void init_gdt(void);
 void setup_tss(uint32_t kernel_stack, uint16_t kernel_ss);
 
 // ==== GDT Functions ====
@@ -66,7 +66,7 @@ void set_gdt_entry(int num, uint32_t base, uint32_t limit, uint8_t access, uint8
     gdt[num].access = access;
 }
 
-void init_gdt() {
+void init_gdt(void) {
     set_gdt_entry(0, 0, 0, 0, 0);                        // Null Segment
     set_gdt_entry(1, 0, 0xFFFFF, 0x9A, 0xC0);            // Kernel Code Segment
     set_gdt_entry(2, 0, 0xFFFFF, 0x92, 0xC0);            // Kernel Data Segment
@@ -102,7 +102,7 @@ void setup_tss(uint32_t kernel_stack_addr, uint16_t kernel_ss) {
 }
 
 // Assembly functions
-void load_gdt() {
+void load_gdt(void) {
     asm volatile(
         "lgdt (%0)\n"
         "mov $0x10, %%ax\n"  // Kernel Data Segment (0x10 is segment selector for entry 2)
@@ -124,7 +124,7 @@ void load_tss(uint16_t tss_segment) {
 }
 
 // ==== Initialize the GDT and TSS ====
-void init_cpu() {
+void init_cpu(void) {
     // Initialize the GDT and set up TSS
     init_gdt();
     setup_tss((uint32_t)&kernel_stack[KERNEL_STACK_SIZE], 0x10); // Kernel Stack top, Kernel Data Segment
