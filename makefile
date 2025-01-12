@@ -28,7 +28,7 @@ build: $(OBJS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf $(OBJS) $(TARGET) img
+	rm -rf $(OBJS) $(TARGET) img slugos.img
 
 grub:
 	mkdir -p img/boot/grub
