@@ -1,5 +1,7 @@
 #include <slug.h>
+#include <liballoc.h>
 #include <stdbool.h>
+#include <string.h>
 
 void PIC_remap(int offset1, int offset2);
 void terminal_initialize(void);
@@ -19,6 +21,15 @@ void _init() {
     klog(1, "PIC has been remapped\n");
 	idt_init();
     klog(1, "IDT has been initialized\n");
+    // Code for testing Liballoc
+    void* ptr = malloc(6);
+    memcpy(ptr, "test\n", 6);
+    if (strcmp(ptr, "test\n") == 0) {
+        klog(1, "Liballoc test succeeded\n");
+    } else {
+        klog(4, "Liballoc test failed\n");
+    }
+    free(ptr);
     // Low priority code (stuff like serial initilization)
     if (init_serial() == 1) {
         klog(2, "Serial port is faulty, the serial port will not be able to send data");

@@ -24,10 +24,18 @@ void klog(int level, char* data) {
         writestring(data);
         return;
     } else if (level == 3) {
-        terminal_setcolor(VGA_COLOR_RED);
+        terminal_setcolor(VGA_COLOR_LIGHT_RED);
         writestring("[ERR] ");
         terminal_setcolor(VGA_COLOR_LIGHT_GREY);
         writestring(data);
+        return;
+    } else if (level == 4) {
+        terminal_setcolor(VGA_COLOR_RED);
+        writestring("[CRIT ERR] ");
+        terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+        writestring(data);
+        asm("cli; hlt"); // Disable interrupts then halt the CPU
+        while(1); // In case that hlt failes infinite loop
         return;
     } else {
         return;

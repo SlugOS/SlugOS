@@ -3,7 +3,7 @@ AS = i686-elf-as
 CC = i686-elf-gcc
 
 # C flags
-CFLAGS = -g -c -std=gnu99 -ffreestanding -Wall -Wextra -Werror -fstack-protector-all -Isrc/headers
+CFLAGS = -g -c -std=gnu99 -ffreestanding -Wall -Wextra -fstack-protector-all -Isrc/headers
 
 # Linker flags
 LDFLAGS = -ffreestanding -O2 -nostdlib

@@ -90,5 +90,6 @@ level 0: DEBUG info that goes to the serial port
 level 1: INFO which is just info about what is happening and what was initalized
 level 2: WARN which is for warnings about something not working
 level 3: ERR which is when something is not working and it will not be able to work
+level 4: CRIT ERR which halts the CPU AND disables interrupts
 */
 void klog(int level, char* data);

@@ -8,3 +8,5 @@ void movedata(void *src, void *dest, size_t len);
 void *memcpy(void *dest, const void *src, size_t len);
 // Find the string length
 size_t strlen(const char* str);
+// Compare strings
+int strcmp(const char *str1, const char *str2);
