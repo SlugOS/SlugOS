@@ -1,22 +1,4 @@
-# Assembler and compiler
-AS = nasm
-CC = i686-elf-gcc
-
-# C flags
-CFLAGS = -g -c -std=gnu99 -ffreestanding -Wall -Wextra -fstack-protector-all -Isrc/headers
-
-# Linker flags
-LDFLAGS = -ffreestanding -O2 -nostdlib
-
-# Get all .s and .c files in src/
-SRCS = $(shell find src -name "*.s" -o -name "*.c")
-
-# The kernel binary we compile
-TARGET=slug.elf
-
-# Object files generated from the .s and .c files
-OBJS = $(SRCS:.s=.o)
-OBJS := $(OBJS:.c=.o)
+include make.config
 
 build: $(OBJS)
 	$(CC) -T misc/linker.ld -o $(TARGET) $(LDFLAGS) $(OBJS) -lgcc
