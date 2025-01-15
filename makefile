@@ -1,5 +1,5 @@
 # Assembler and compiler
-AS = i686-elf-as
+AS = nasm
 CC = i686-elf-gcc
 
 # C flags
@@ -22,7 +22,7 @@ build: $(OBJS)
 	$(CC) -T misc/linker.ld -o $(TARGET) $(LDFLAGS) $(OBJS) -lgcc
 
 %.o: %.s
-	$(AS) $< -o $@
+	$(AS) -felf32 $< -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@

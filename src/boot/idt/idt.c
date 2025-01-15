@@ -36,9 +36,9 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 
 extern void* isr_stub_table[];
 
-uint8_t key_handler() {
-    uint8_t scancode = inb(0x60);
-    return scancode;
+void syscall() {
+    writestring("test\n");
+    return;
 }
 
 void idt_init(void) {
@@ -49,7 +49,7 @@ void idt_init(void) {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
-    idt_set_descriptor(33, key_handler, 0x8E);
+    idt_set_descriptor(80, syscall, 0x8E);
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag
 }
