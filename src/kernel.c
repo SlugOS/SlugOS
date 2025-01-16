@@ -1,5 +1,4 @@
 #include <slug.h>
-#include "test/test.h"
 
 void kernel_main(void) {
     #ifdef DEBUG
