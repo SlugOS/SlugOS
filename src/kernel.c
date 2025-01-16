@@ -9,7 +9,5 @@ void kernel_main(void) {
     #ifdef DEBUG
     // Run our test interrupt handler
     asm("int $80");
-    // Run the co-op multitasking testp
-    multitasking_test();
     #endif
 }
