@@ -58,6 +58,12 @@ uint8_t inb(uint16_t port);
 
 // 16bit data being sent to a port
 void outw(uint16_t port, uint16_t val);
+
+// 32bit input from port
+uint32_t inl(uint16_t port);
+// 32bit output to a port
+void outl(uint16_t port, uint32_t value);
+
 // 16bit data being recivied from a port
 uint16_t inw(uint16_t port);
 

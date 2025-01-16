@@ -1,3 +1,5 @@
+ALL: build grub
+
 include make.config
 
 build: $(OBJS)
@@ -18,9 +20,9 @@ grub:
 	mv $(TARGET) img/boot/
 	grub-mkrescue img/ -o slugos.img
 
-run: grub
+run:
 	qemu-system-x86_64 -hda slugos.img
 
 # Debug target: start kernel in GDB for debugging
-debug: grub
+debug:
 	qemu-system-x86_64 -s -S -hda slugos.img
