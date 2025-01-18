@@ -22,9 +22,6 @@ global _start:function (_start.end - _start)
 _start:
 	mov esp, stack_top
 
-	extern _init
-	call _init
-
 	extern kernel_main
 	call kernel_main
 
