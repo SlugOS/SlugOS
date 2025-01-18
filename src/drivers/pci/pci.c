@@ -1,7 +1,7 @@
 #ifndef NO_PCI
 
 #include <slug.h>
-#include <pci.h>
+#include <drivers/pci.h>
 #include <stdint.h>
 
 #define PCI_CONFIG_ADDRESS 0xCF8
