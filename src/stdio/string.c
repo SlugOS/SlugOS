@@ -43,3 +43,26 @@ int strcmp(const char *str1, const char *str2) {
     }
     return (unsigned char)*str1 - (unsigned char)*str2;
 }
+
+char *strcpy(char *dest, const char *src) {
+    char *dest_start = dest; // Save the starting address of dest
+    while ((*dest++ = *src++) != '\0');
+    return dest_start;
+}
+
+char *strcat(char *dest, const char *src) {
+    char *dest_start = dest; // Save the starting address of dest
+    while (*dest) {          // Find the end of dest
+        dest++;
+    }
+    while ((*dest++ = *src++) != '\0'); // Copy src to the end of dest
+    return dest_start;
+}
+
+void *memset(void *dest, int value, size_t size) {
+    unsigned char *ptr = (unsigned char *)dest; // Treat dest as a byte array
+    while (size--) {
+        *ptr++ = (unsigned char)value; // Fill each byte with the given value
+    }
+    return dest;
+}

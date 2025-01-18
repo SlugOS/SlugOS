@@ -11,7 +11,7 @@ uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 
 __attribute__((noreturn))
 void __stack_chk_fail(void) {
-    writestring("SSP triggered\nHalting CPU\n");
+    printf("SSP Triggered, it is possible that a exploit was attempted with a buffer overflow.\n");
     asm("cli; hlt"); // This will run cli to disable interrupts then hlt to halt the CPU (therefore the OS)
     while(1);
 }

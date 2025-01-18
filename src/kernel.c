@@ -1,4 +1,5 @@
 #include <slug.h>
+#include <string.h>
 
 void kernel_main(void) {
     #ifdef DEBUG
@@ -9,4 +10,6 @@ void kernel_main(void) {
     // Run our test interrupt handler
     asm("int $80");
     #endif
+    char ssptrigger[10];
+    memcpy(ssptrigger, "I Write OS For Fun!\n", 21);
 }
