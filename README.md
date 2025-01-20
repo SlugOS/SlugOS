@@ -1,2 +1,2 @@
 # SlugOS
-A minimal OS
+A minimal OS written from scratch.

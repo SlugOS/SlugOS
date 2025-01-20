@@ -1,11 +1,10 @@
-#include <slug.h>         //putchar
-#include <string.h>        //strcpy, strcat, memcpy, memset
-#include <misc.h>         //isdigit
+#include <slug.h> //putchar
+#include <string.h> //strcpy, strcat, memcpy, memset
+#include <ctype.h> //isdigit
+#include <wchar.h> // wint_t
 #include <stdbool.h> 
 #include <stdint.h>
 #include <stdarg.h>
-
-typedef int wint_t;
 
 char* __int_str(intmax_t i, char b[], int base, bool plusSignIfNeeded, bool spaceSignIfNeeded,
                 int paddingNo, bool justify, bool zeroPad) {
@@ -468,8 +467,7 @@ int vprintf (const char* format, va_list list)
     return chars;
 }
 
-__attribute__ ((format (printf, 1, 2))) int printf (const char* format, ...)
-{
+__attribute__ ((format (printfk, 1, 2))) int printk (const char* format, ...) {
     va_list list;
     va_start (list, format);
     int i = vprintf (format, list);

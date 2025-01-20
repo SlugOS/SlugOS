@@ -1,7 +1,10 @@
-// Define the va_list type, which holds information needed by the macros
-typedef char *va_list;
+#ifndef STDARG_H
+#define STDARG_H
 
-// macors to initialize and process variable argument lists
-#define va_start(ap, param) ((ap) = (va_list)&param + sizeof(param))
-#define va_arg(ap, type)     (*(type *)((ap) += sizeof(type)) - sizeof(type))
-#define va_end(ap)           (void)(ap)
+typedef __builtin_va_list va_list;
+
+#define va_start(ap, param) __builtin_va_start(ap, param)
+#define va_arg(ap, type)    __builtin_va_arg(ap, type)
+#define va_end(ap)          __builtin_va_end(ap)
+
+#endif /* STDARG_H */
