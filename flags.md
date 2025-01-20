@@ -3,4 +3,4 @@
 ## Disabling Drivers
 You can pass these to EXTRA_DEFINES in make.config
 
-```DEBUG``` This function will put in extra testing for stuff like testing PCI (will conflict with NO_PCI)
+```DEBUG``` This function will put in extra testing for stuff like testing PCI
