@@ -108,6 +108,9 @@ _start:
 	movl %cr3, %ecx
 	movl %ecx, %cr3
 
+	# Set EBP to NULL (needed for stack trace)
+	xor %ebp, %ebp
+
 	# Set up the stack.
 	mov $stack_top, %esp
 
