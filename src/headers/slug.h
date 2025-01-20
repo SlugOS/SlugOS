@@ -19,4 +19,7 @@ level 4: This is a critical error in which the system will not work like the GDT
 */
 void logk(int level, const char* fmt, ...);
 
+// Do a stack trace for all functions called
+void TraceStackTrace(unsigned int MaxFrames);
+
 #endif /* SLUG_H */
