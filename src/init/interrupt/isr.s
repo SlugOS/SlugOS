@@ -1,16 +1,7 @@
 .macro isr_err_stub number
     .globl isr_stub_\number
 isr_stub_\number:
-    push \number # Push the int number
-    push %eax
-    push %ecx
-    push %edx
-    push %ebx
-    push %ebp
-    push %esi
-    push %edi
-    push %ds
-    push %esp
+    mov %eax, \number
     # Call exception_handler directly by using the external label address
     call exception_handler         # Now you can call the function directly.
 
