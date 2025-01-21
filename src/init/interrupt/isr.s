@@ -2,15 +2,13 @@
     .globl isr_stub_\number
 isr_stub_\number:
     push \number # Push the int number
-    push %edi
-    push %esi
-    push %ebp
-    push %ebx
-    push %edx
-    push %ecx
     push %eax
-    push %ds
-    push %esp
+    push %ecx
+    push %edx
+    push %ebx
+    push %ebp
+    push %esi
+    push %edi
     # Call exception_handler directly by using the external label address
     call exception_handler         # Now you can call the function directly.
 

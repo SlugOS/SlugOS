@@ -5,10 +5,10 @@
 typedef struct {
     uint32_t ds;       // Data segment selector
     uint32_t edi, esi, ebp, ebx, edx, ecx, eax; // General-purpose registers
-    int int_num;
-    uint32_t err_code;  // Interrupt number (which exception triggered this handler)
-    uint32_t cs;       // Code segment at the moment of the exception
+    int int_num; // The interrupt number
+    uint32_t err_code; // Some exceptions pass this
     uint32_t eip;      // Instruction pointer at the moment of the exception
+    uint32_t cs;       // Code segment at the moment of the exception
     uint32_t eflags;   // Flags register
     uint32_t esp;
     uint32_t ss;       // Stack segment (if applicable)
