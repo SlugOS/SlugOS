@@ -1,18 +1,16 @@
 .macro isr_err_stub number
     .globl isr_stub_\number
 isr_stub_\number:
-    push %ds                      # Push the DS segment register
+    push \number # Push the int number
     push %edi
     push %esi
     push %ebp
-    push %esp                     # Not actually using, but pushed for alignment in the frame
     push %ebx
     push %edx
     push %ecx
-    push %eax                     # Push eax (can be discarded as needed)
-
-    push \number                   # Push the interrupt number directly
-
+    push %eax
+    push %ds
+    push %esp
     # Call exception_handler directly by using the external label address
     call exception_handler         # Now you can call the function directly.
 

@@ -4,13 +4,13 @@
 // This contains all of the registers and other info that is passed from the interrupt
 typedef struct {
     uint32_t ds;       // Data segment selector
-    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // General-purpose registers
-    uint32_t int_num;  // Interrupt number (which exception triggered this handler)
-    uint32_t err_code; // Error code (only relevant for certain exceptions)
-    uint32_t eip;      // Instruction pointer at the moment of the exception
+    uint32_t edi, esi, ebp, ebx, edx, ecx, eax; // General-purpose registers
+    int int_num;
+    uint32_t err_code;  // Interrupt number (which exception triggered this handler)
     uint32_t cs;       // Code segment at the moment of the exception
+    uint32_t eip;      // Instruction pointer at the moment of the exception
     uint32_t eflags;   // Flags register
-    uint32_t useresp;  // Stack pointer in user mode (if applicable)
+    uint32_t esp;
     uint32_t ss;       // Stack segment (if applicable)
 } exception_frame_t;
 
@@ -59,7 +59,7 @@ const char* get_exception_message(uint32_t int_num) {
 }
 
 __attribute__((noreturn))
-void exception_handler(exception_frame_t *frame) {
+void exception_handler(exception_frame_t* frame) {
     printk("Exception handler triggered: %s\n Exception %d\n", get_exception_message(frame->int_num), frame->int_num);
     #ifdef DEBUG
     // Do a stack trace
