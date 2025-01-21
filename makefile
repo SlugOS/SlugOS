@@ -6,7 +6,7 @@ build: $(OBJS)
 	$(CC) -T misc/linker.ld -o $(TARGET) $(LDFLAGS) $(OBJS) -lgcc
 
 %.o: %.s
-	$(AS) $< -o $@
+	$(AS) -g $< -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -21,8 +21,8 @@ grub:
 	grub-mkrescue img/ -o slugos.img
 
 run:
-	qemu-system-x86_64 -hda slugos.img
+	qemu-system-i386 -hda slugos.img
 
 # Debug target: start kernel in GDB for debugging
 debug:
-	qemu-system-x86_64 -s -S -hda slugos.img
+	qemu-system-i386 -s -S -hda slugos.img

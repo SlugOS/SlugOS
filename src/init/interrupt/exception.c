@@ -60,7 +60,9 @@ const char* get_exception_message(uint32_t int_num) {
 
 __attribute__((noreturn))
 void exception_handler(exception_frame_t* frame) {
-    printk("Exception handler triggered: %s\n Exception %d\n", get_exception_message(frame->int_num), frame->int_num);
+    int int_num = frame->int_num;
+    char* error = get_exception_message(int_num);
+    printk("Exception handler triggered: %s\n Exception %d\n", error, int_num);
     #ifdef DEBUG
     // Do a stack trace
     TraceStackTrace(10);
