@@ -69,8 +69,8 @@ void gdt_init() {
 
 // Initialize the TSS
 void init_tss() {
-    // Set TSS basics (esp0 for ring 0, ss0 for ring 0 kernel data)
-    tss.esp0 = 0x90000; // Valid kernel stack
+    void* kernel_stack = malloc(16 * 1024);  // Allocate 16KB for the kernel stack
+    tss.esp0 = (uint32_t)kernel_stack + (16 * 1024);  // esp0 points to the top of the stack
     tss.ss0 = 0x10;     // Kernel data segment (GDT index 2)
     
     // Zero-fill unused parts of the TSS

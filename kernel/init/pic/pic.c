@@ -21,6 +21,15 @@ This code will disable the PIC so the APIC will work
 #define ICW4_BUF_SLAVE	0x08		/* Buffered mode/slave */
 #define ICW4_BUF_MASTER	0x0C		/* Buffered mode/master */
 #define ICW4_SFNM	0x10		/* Special fully nested (not) */
+#define PIC_EOI		0x20		/* End-of-interrupt command code */
+
+void PIC_sendEOI(uint8_t irq) {
+	if(irq >= 8)
+		outb(PIC2_COMMAND,PIC_EOI);
+	
+	outb(PIC1_COMMAND,PIC_EOI);
+}
+
 
 /*
 arguments:
@@ -28,7 +37,7 @@ arguments:
 		vectors on the master become offset1..offset1+7
 	offset2 - same for slave PIC: offset2..offset2+7
 */
-static void PIC_remap(int offset1, int offset2) {
+void PIC_remap(int offset1, int offset2) {
 	uint8_t a1, a2;
 	
 	a1 = inb(PIC1_DATA);                        // save masks
@@ -56,10 +65,30 @@ static void PIC_remap(int offset1, int offset2) {
 	outb(PIC2_DATA, a2);
 }
 
-void pic_disable() {
-    // Remap the PIC so we can disable it
-    PIC_remap(0x20, 0x2F);
-    // Disable the Master and Slave PIC
-    outb(PIC1_DATA, 0xff);
-    outb(PIC2_DATA, 0xff);
+void IRQ_disable(uint8_t IRQline) {
+    uint16_t port;
+    uint8_t value;
+
+    if(IRQline < 8) {
+        port = PIC1_DATA;
+    } else {
+        port = PIC2_DATA;
+        IRQline -= 8;
+    }
+    value = inb(port) | (1 << IRQline);
+    outb(port, value);        
+}
+
+void IRQ_enable(uint8_t IRQline) {
+    uint16_t port;
+    uint8_t value;
+
+    if(IRQline < 8) {
+        port = PIC1_DATA;
+    } else {
+        port = PIC2_DATA;
+        IRQline -= 8;
+    }
+    value = inb(port) & ~(1 << IRQline);
+    outb(port, value);        
 }

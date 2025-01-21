@@ -30,7 +30,7 @@
                 "-Wextra",
                 "-Werror",
                 "-fstack-protector-all",
-                "-Isrc/headers"
+                "-Ikernel/headers"
             ]
         }
     ],
