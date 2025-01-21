@@ -25,24 +25,26 @@ void logk(int level, const char* fmt, ...) {
         printk(fmt, args);
     } else if (level == 2) {
         // This prints WARN since it is for stuff like the serial port not working, which is not vital so will not cause any issues
-        terminal_setcolor(VGA_COLOR_GREEN);
+        terminal_setcolor(VGA_COLOR_BROWN);
         writestring("[WARN] ");
         terminal_setcolor(VGA_COLOR_LIGHT_GREY);
         printk(fmt, args);
     } else if (level == 3) {
         // This prints ERROR and tells the user that something went wrong, it will not function
-        terminal_setcolor(VGA_COLOR_GREEN);
+        terminal_setcolor(VGA_COLOR_LIGHT_RED);
         writestring("[ERR] ");
         terminal_setcolor(VGA_COLOR_LIGHT_GREY);
         printk(fmt, args);
     } else if (level == 4) {
         // This prints CRIT ERR and halts the CPU
-        terminal_setcolor(VGA_COLOR_GREEN);
+        terminal_setcolor(VGA_COLOR_RED);
         writestring("[OK] ");
         terminal_setcolor(VGA_COLOR_LIGHT_GREY);
         printk(fmt, args);
         asm("cli; hlt");
     }
+
+    putchar('\n');
 
     va_end(args);
 }

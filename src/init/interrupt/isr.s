@@ -1,11 +1,8 @@
 .macro isr_err_stub number
     .globl isr_stub_\number
 isr_stub_\number:
-    mov %eax, \number
-    # Call exception_handler directly by using the external label address
-    call exception_handler         # Now you can call the function directly.
-
-    iret                          # Return from interrupt
+    call exception_handler
+    iret
 .endm
 
 .macro isr_no_err_stub number
