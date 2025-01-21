@@ -9,6 +9,7 @@ isr_stub_\number:
     push %ebp
     push %esi
     push %edi
+    push %ds
     # Call exception_handler directly by using the external label address
     call exception_handler         # Now you can call the function directly.
 
