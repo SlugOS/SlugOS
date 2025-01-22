@@ -6,6 +6,8 @@
         "stdbool.h": "c",
         "string.h": "c",
         "ctype.h": "c",
-        "liballoc.h": "c"
+        "liballoc.h": "c",
+        "io.h": "c",
+        "ne2k.h": "c"
     }
 }

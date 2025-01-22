@@ -21,7 +21,7 @@ grub:
 	grub-mkrescue img/ -o slugos.img
 
 run:
-	qemu-system-i386 -hda slugos.img
+	qemu-system-i386 -hda slugos.img $(QEMUFLAGS)
 
 # Debug target: start kernel in GDB for debugging
 debug:
