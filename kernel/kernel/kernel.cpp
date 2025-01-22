@@ -23,4 +23,8 @@ extern "C" void kernel_main(multiboot_info_t *multiboot_info) {
         // Quiet is enabled
         quiet = false;
     }
+    #ifdef RSOD
+    // Test the RSOD (Red Screen Of Death)
+    asm("int $0");
+    #endif
 }
