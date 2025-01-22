@@ -6,7 +6,7 @@ build: $(OBJS)
 	$(CC) -T misc/linker.ld -o $(TARGET) $(LDFLAGS) $(OBJS) -lgcc
 
 %.o: %.s
-	$(AS) -g $< -o $@
+	$(AS) -felf32 $< -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
