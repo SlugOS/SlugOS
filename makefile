@@ -11,6 +11,9 @@ build: $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
+
 clean:
 	rm -rf $(OBJS) $(TARGET) img slugos.img
 

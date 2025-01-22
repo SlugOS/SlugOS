@@ -114,9 +114,6 @@ _start:
 	# Set up the stack.
 	mov $stack_top, %esp
 
-	# Enter the low level init code to do stuff like terminal_initialize to make the kernel code look more clean
-	call _init
-
 	# Enter the high-level kernel.
 	call kernel_main
 

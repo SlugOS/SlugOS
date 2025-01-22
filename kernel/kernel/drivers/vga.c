@@ -1,6 +1,6 @@
 #include <string.h>
-#include <io.h>
-#include <vga.h>
+#include <drivers/io.h>
+#include <drivers/vga.h>
 
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {

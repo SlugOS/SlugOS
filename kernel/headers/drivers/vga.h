@@ -1,6 +1,10 @@
 #ifndef VGA_H
 #define VGA_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 /* Hardware text mode color constants. */
@@ -27,5 +31,9 @@ enum vga_color {
 void terminal_initialize(void);
 // This can change the color of the text
 void terminal_setcolor(uint8_t color);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* VGA_H */

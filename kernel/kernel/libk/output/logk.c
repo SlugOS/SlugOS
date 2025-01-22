@@ -1,4 +1,4 @@
-#include <vga.h>
+#include <drivers/vga.h>
 #include <slug.h>
 #include <stdarg.h>
 

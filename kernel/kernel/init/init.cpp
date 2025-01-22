@@ -1,10 +1,12 @@
 #include <slug.h>
 #include <stdint.h>
 
-void PIC_sendEOI(uint8_t irq);
-static void PIC_remap(int offset1, int offset2);
-void IRQ_disable(uint8_t IRQline);
-void IRQ_enable(uint8_t IRQline);
+extern "C" {
+    void terminal_initialize();
+    void gdt_init();
+    void idt_init();
+    void PIC_remap(int offset1, int offset2);
+}
 
 void _init() {
     // Setup the needed variables and such for the rest of the VGA text mode functions

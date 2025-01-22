@@ -7,7 +7,7 @@ This code will provide functions for reading, writing, and checking if a PCI dev
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <io.h>
+#include <drivers/io.h>
 
 #define PCI_CONFIG_ADDRESS 0xCF8
 #define PCI_CONFIG_DATA    0xCFC

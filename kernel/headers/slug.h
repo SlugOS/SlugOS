@@ -1,6 +1,10 @@
 #ifndef SLUG_H
 #define SLUG_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // The standard way to print out a single character
 void putchar(char c);
 // Unformatted way to print a string
@@ -21,5 +25,9 @@ void logk(int level, const char* fmt, ...);
 
 // Do a stack trace for all functions called
 void TraceStackTrace(unsigned int MaxFrames);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SLUG_H */
