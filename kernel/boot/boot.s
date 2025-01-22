@@ -114,6 +114,10 @@ _start:
 	# Set up the stack.
 	mov $stack_top, %esp
 
+	# Do setup tasks from crti.s
+
+	call _init
+
 	# Enter the high-level kernel.
 	call kernel_main
 

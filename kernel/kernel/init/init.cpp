@@ -6,6 +6,8 @@ extern "C" {
     void gdt_init();
     void idt_init();
     void PIC_remap(int offset1, int offset2);
+    void IRQ_disable(uint8_t IRQline);
+    void IRQ_enable(uint8_t IRQline);
 }
 
 void _init() {
@@ -20,6 +22,8 @@ void _init() {
     logk(1, "GDT & TSS initalized");
     // Remap the PIC needed to not cause a GPF or some other issue
     PIC_remap(0x20, 0x2F);
+    // Enable IRQ 1
+    IRQ_enable(1);
     logk(1, "PIC initalized");
     // Setup the IDT
     idt_init();
