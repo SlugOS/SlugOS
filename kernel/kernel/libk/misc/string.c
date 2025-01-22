@@ -32,3 +32,23 @@ void* memset(void* dest, int val, size_t n) {
     while (n--) *d++ = (unsigned char) val;
     return dest;
 }
+
+char *strstr(const char *haystack, const char *needle) {
+    if (!*needle) // If needle is empty, return haystack
+        return (char *)haystack;
+
+    for (; *haystack; haystack++) {
+        const char *h = haystack;
+        const char *n = needle;
+
+        while (*h && *n && *h == *n) {
+            h++;
+            n++;
+        }
+
+        if (!*n) // If we reached the end of needle, return start of the match
+            return (char *)haystack;
+    }
+
+    return NULL; // No match found
+}
