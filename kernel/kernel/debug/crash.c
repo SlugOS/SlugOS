@@ -4,7 +4,8 @@
 #include <drivers/vga.h>
 
 const char* errorcode[] = {
-    "EXCEPTION"
+    "EXCEPTION",
+    "KERNEL PANIC"
 };
 
 // Function to return the error message for a specific error code

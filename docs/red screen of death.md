@@ -28,6 +28,7 @@ The RSOD follows these steps (in order)
 It has a few types of error
 
 - Exception
+- Kernel panic (generic)
 - Unkown Error
 
 ### What do I do if I get a RSOD?

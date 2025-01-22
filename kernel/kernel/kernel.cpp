@@ -25,6 +25,6 @@ extern "C" void kernel_main(multiboot_info_t *multiboot_info) {
     }
     #ifdef RSOD
     // Test the RSOD (Red Screen Of Death)
-    asm("int $0");
+    crash(1); // Generic kernel panic
     #endif
 }
