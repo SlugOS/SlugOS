@@ -1,10 +1,10 @@
 # Extra flags you can pass
 
-## Disabling Drivers
+## Compile flags
 You can pass these to EXTRA_DEFINES in make.config
 
-```DEBUG``` This function will put in extra testing for stuff like testing PCI
+```DEBUG``` This flag will put in extra logging, testing, and so on.
 
-```NO-PCI``` This will disable PCI (and its subdrivers)
+## Kernel flags (you can pass these in the grub.cfg)
 
-```NO-NE2K``` This disables NE2K (NE2000) network card code
+```quiet```  This disables outputs like the welcome message, logging, etc.

@@ -2,13 +2,11 @@
 #include <drivers/io.h>
 #include <drivers/vga.h>
 
-static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
-{
+uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
 	return fg | bg << 4;
 }
 
-static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
-{
+static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
 
@@ -82,4 +80,17 @@ static void terminal_write(const char* data, size_t size) {
 
 void writestring(const char* data) {
 	terminal_write(data, strlen(data));
+}
+
+void clear_screen() {
+    // Loop through every position on the terminal screen
+    for (size_t y = 0; y < VGA_HEIGHT; y++) {
+        for (size_t x = 0; x < VGA_WIDTH; x++) {
+            // Clear each character by setting it to space (' ') with the current terminal color
+            terminal_putentryat(' ', terminal_color, x, y);
+        }
+    }
+    // Reset the cursor position to the top-left corner (optional but usually expected)
+    terminal_row = 0;
+    terminal_column = 0;
 }

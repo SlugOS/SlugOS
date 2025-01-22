@@ -39,8 +39,10 @@ _start:
 	extern _fini
 	call_fini
 
+    cli ; disable interrupt
+
 .hang:
     hlt                  ; Halt the CPU (infinite loop)
-    jmp .hang            ; Jump back to the same instruction (infinite hang until interrupts happen)
+    jmp .hang            ; Jump back to the same instruction (infinite hang)
 
 .end:

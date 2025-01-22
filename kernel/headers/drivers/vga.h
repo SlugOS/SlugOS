@@ -31,6 +31,8 @@ enum vga_color {
 void terminal_initialize(void);
 // This can change the color of the text
 void terminal_setcolor(uint8_t color);
+// Get a color code for the text (fg) and the background (bg) which you can pass to terminal_setcolor(uint8_t color);
+uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
 
 #ifdef __cplusplus
 }

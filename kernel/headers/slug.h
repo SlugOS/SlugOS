@@ -13,6 +13,9 @@ void writestring(const char* data);
 // A printf implementation
 __attribute__ ((format (printk, 1, 2))) int printk (const char* format, ...);
 
+// Clear the screen
+void clear_screen();
+
 /*
 A logging function which accepts printf like arguments, the following are the levels of log message
 level 0: This is debugging info
@@ -25,6 +28,10 @@ void logk(int level, const char* fmt, ...);
 
 // Do a stack trace for all functions called
 void TraceStackTrace(unsigned int MaxFrames);
+
+// This is for a BSOD like error screen
+__attribute__((noreturn))
+void crash(unsigned int errorcode);
 
 #ifdef __cplusplus
 }
