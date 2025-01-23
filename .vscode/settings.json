@@ -8,6 +8,7 @@
         "ctype.h": "c",
         "liballoc.h": "c",
         "io.h": "c",
-        "ne2k.h": "c"
+        "ne2k.h": "c",
+        "vga.h": "c"
     }
 }

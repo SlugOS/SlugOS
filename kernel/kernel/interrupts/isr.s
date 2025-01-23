@@ -1,12 +1,16 @@
 %macro isr_err_stub 1
 isr_stub_%+%1:
+    push %1                    ; Push the interrupt number onto the stack
     call exception_handler
-    iret 
+    add esp, 4                 ; Clean up the stack (pop the interrupt number)
+    iret
 %endmacro
 ; if writing for 64-bit, use iretq instead
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
+    push %1                    ; Push the interrupt number onto the stack
     call exception_handler
+    add esp, 4                 ; Clean up the stack (pop the interrupt number)
     iret
 %endmacro
 extern exception_handler
