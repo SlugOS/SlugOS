@@ -29,6 +29,7 @@ It has a few types of error
 
 - Exception
 - Kernel panic (generic)
+- Security violation
 - Unkown Error
 
 ### What do I do if I get a RSOD?

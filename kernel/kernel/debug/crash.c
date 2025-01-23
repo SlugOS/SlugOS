@@ -5,7 +5,8 @@
 
 const char* errorcode[] = {
     "EXCEPTION",
-    "KERNEL PANIC"
+    "KERNEL PANIC",
+    "SECURITY VIOLATION", // This is for stuff like a SSP overflow or some other security violation
 };
 
 // Function to return the error message for a specific error code

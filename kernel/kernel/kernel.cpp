@@ -24,7 +24,8 @@ extern "C" void kernel_main(multiboot_info_t *multiboot_info) {
         quiet = false;
     }
     #ifdef RSOD
-    // Test the RSOD (Red Screen Of Death)
-    crash(1); // Generic kernel panic
+    // Force a SSP overflow
+    char data[10];
+    strcpy(data, "123456789\n");
     #endif
 }

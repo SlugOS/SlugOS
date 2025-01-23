@@ -11,9 +11,6 @@ uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 
 __attribute__((noreturn))
 void __stack_chk_fail(void) {
-    printk("SSP triggered, the system may have had a attempted exploit.\n");
-    #ifdef DEBUG
-    TraceStackTrace(10);
-    #endif
+    crash(2);
     asm("cli; hlt");
 }
