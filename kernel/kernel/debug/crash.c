@@ -27,10 +27,10 @@ void crash(unsigned int errorcode) {
     // Clear the screen
     clear_screen();
     // Print out our banner
-    printk("-----------------------------\n");
-    printk("|  SLUGOS HALTED SYSTEM     |\n");
-    printk("|  Oops, something broke!   |\n");
-    printk("-----------------------------\n");
+    printk("--------------------------------------------------------------------------------");
+    printk("|                             SLUGOS HALTED SYSTEM                             |");
+    printk("|                             Oops, something broke!                           |");
+    printk("--------------------------------------------------------------------------------");
     // Print the errorcode
     printk("ERROR CODE: %d\n", errorcode);
     // Print more specific info about the error
