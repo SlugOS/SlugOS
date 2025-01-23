@@ -1,6 +1,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+// The PS/2 keyboard handler
+void keyhandler();
+
 #define IDT_MAX_DESCRIPTORS 256
 
 typedef struct {
@@ -43,6 +46,8 @@ void idt_init() {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
+
+    idt_set_descriptor(33, keyhandler, 0x8E);
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag
