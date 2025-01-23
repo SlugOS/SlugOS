@@ -1,8 +1,9 @@
+#include <slug.h>
 #include <stdint.h>
 #include <stdbool.h>
 
 // The PS/2 keyboard handler
-void keyhandler();
+void keystub();
 
 #define IDT_MAX_DESCRIPTORS 256
 
@@ -36,6 +37,16 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
     descriptor->attributes     = flags;
     descriptor->isr_high       = (uint32_t)isr >> 16;
     descriptor->reserved       = 0;
+}
+
+// Send the end of interrupt to the PIC
+void PIC_sendEOI(uint8_t irq);
+
+// The PS/2 keyboard handler
+void keyhandler(void*) {
+    uint8_t scancode = inb(0x60);
+    printk("Scancode %x\n", scancode);
+    PIC_sendEOI(1); // Send IRQ 1 EOI (IRQ1 is the PS/2 keyboard)
 }
 
 void idt_init() {
