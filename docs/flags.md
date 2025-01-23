@@ -1,7 +1,7 @@
 # Extra flags you can pass
 
 ## Compile flags
-You can pass these to EXTRA_DEFINES in make.config
+You can pass these to EXTRA_DEFINES in make.config when compiling SlugOS
 
 ```DEBUG``` This flag will put in extra logging, testing, and so on.
 
