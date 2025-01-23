@@ -55,6 +55,8 @@ void crash(unsigned int errorcode) {
     terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_RED));
     // Clear the screen
     clear_screen();
+    // Print our logo
+    displaylogo();
     // Print out our banner
     printk("--------------------------------------------------------------------------------");
     printk("|                             SLUGOS HALTED SYSTEM                             |");
@@ -66,7 +68,6 @@ void crash(unsigned int errorcode) {
     printk("ERROR TYPE: %s\n", get_error_message(errorcode));
     // Display a stack trace
     TraceStackTrace(10);
-    printk("Please reboot your system.");
     // Halt the CPU
     asm("hlt");
 }

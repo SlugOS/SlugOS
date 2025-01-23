@@ -33,6 +33,9 @@ void TraceStackTrace(unsigned int MaxFrames);
 __attribute__((noreturn))
 void crash(unsigned int errorcode);
 
+// Display our logo
+void displaylogo();
+
 #ifdef __cplusplus
 }
 #endif

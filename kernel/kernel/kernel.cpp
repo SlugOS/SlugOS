@@ -11,11 +11,11 @@ extern "C" void kernel_main(multiboot_info_t *multiboot_info) {
     initalize();
     // Check that quiet flag is not enabled
     if (strstr((const char*)multiboot_info->cmdline, "quiet") == NULL) {
-	    quiet = true;
-        printk("Thank you for using SlugOS\n");
+	    quiet = false;
+        displaylogo();
     } else {
         // Quiet is enabled
-        quiet = false;
+        quiet = true;
     }
     #ifdef RSOD
     // Force a SSP overflow
