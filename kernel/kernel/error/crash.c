@@ -35,7 +35,8 @@ const char* errorcode[] = {
     "SECURITY EXCEPTION",        // 28
     "RESERVED",                  // 29
     "FPU ERROR INTERRUPT",       // 30
-    "SSP VIOLATION",             // 31 
+    "SSP VIOLATION",             // 31
+    "KERNEL PANIC (GENERIC)",    // 32
 };
 
 // Function to return the error message for a specific error code
@@ -66,8 +67,10 @@ void crash(unsigned int errorcode) {
     printk("ERROR CODE: %d\n", errorcode);
     // Print more specific info about the error
     printk("ERROR TYPE: %s\n", get_error_message(errorcode));
+    #ifdef DEBUG
     // Display a stack trace
     TraceStackTrace(10);
+    #endif
     // Halt the CPU
     asm("hlt");
 }
