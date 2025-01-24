@@ -11,7 +11,7 @@ bool quiet;
 void kernel_main(multiboot_info_t *multiboot_info) {
     initialize();
     // Check that quiet flag is not enabled
-    if (strstr((const char*)multiboot_info->cmdline, "quiet") == NULL) {
+    if (strstr(multiboot_info->cmdline, "quiet") == NULL) {
 	    quiet = false;
         displaylogo();
     } else {
