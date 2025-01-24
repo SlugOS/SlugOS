@@ -55,3 +55,27 @@ char getchar_serial() {
    while (serial_received() == 0);
    return inb(PORT);
 }
+
+char* getstring_serial() {
+   int index = 0;
+   char* size_input;
+
+   puts_serial("Enter trace iterations: ");
+   index = 0;
+
+   while (1) {
+       char c = getchar_serial();
+       if (c == '\r' || c == '\n') {
+           size_input[index] = '\0';
+           puts_serial("\r\n");
+           break;
+       } else if (c == '\b' && index > 0) {
+           index--;
+           puts_serial("\b \b");
+       } else if (index < 255) {
+           size_input[index++] = c;
+           putchar_serial(c);
+       }
+   }
+   return size_input;
+}
