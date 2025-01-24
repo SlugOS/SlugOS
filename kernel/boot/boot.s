@@ -17,6 +17,13 @@ stack_bottom:
     resb 16384          ; Reserve 16 KiB of stack space
 stack_top:
 
+align 16
+interrupt_stack:
+    resb 16384   ; Reserve stack space of 16 KiB
+interrupt_stack_top:
+
+global interrupt_stack_top
+
 section .text
     global _start
 

@@ -39,6 +39,8 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
 // Send the end of interrupt to the PIC
 void PIC_sendEOI(uint8_t irq);
 
+void api_wrapper();
+
 void idt_init() {
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
@@ -47,6 +49,8 @@ void idt_init() {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
+
+    idt_set_descriptor(0x80, api_wrapper, 0xEE);
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag

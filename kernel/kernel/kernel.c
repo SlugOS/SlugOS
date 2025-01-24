@@ -5,6 +5,7 @@
 #include <boot/multiboot1.h>
 
 void initialize();
+void jump_usermode();
 
 bool quiet;
 
@@ -23,4 +24,6 @@ void kernel_main(multiboot_info_t *multiboot_info) {
     char data[10];
     strcpy(data, "123456789\n");
     #endif
+
+    jump_usermode();
 }

@@ -11,7 +11,7 @@ void putchar(char c);
 void writestring(const char* data);
 
 // A printf implementation
-__attribute__ ((format (printk, 1, 2))) int printk (const char* format, ...);
+int printk (const char* format, ...);
 
 // Clear the screen
 void clear_screen();
