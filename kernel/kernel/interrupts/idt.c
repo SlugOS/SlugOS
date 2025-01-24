@@ -2,9 +2,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// The PS/2 keyboard handler
-void keystub();
-
 #define IDT_MAX_DESCRIPTORS 256
 
 typedef struct {
@@ -42,13 +39,6 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
 // Send the end of interrupt to the PIC
 void PIC_sendEOI(uint8_t irq);
 
-// The PS/2 keyboard handler
-void keyhandler(void*) {
-    uint8_t scancode = inb(0x60);
-    printk("Scancode %x\n", scancode);
-    PIC_sendEOI(1); // Send IRQ 1 EOI (IRQ1 is the PS/2 keyboard)
-}
-
 void idt_init() {
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
@@ -57,8 +47,6 @@ void idt_init() {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
-
-    idt_set_descriptor(33, keyhandler, 0x8E);
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag

@@ -24,6 +24,6 @@ void kernel_main(multiboot_info_t *multiboot_info) {
     char data[10];
     strcpy(data, "123456789\n");
     #endif
-    // Run the minidebug shell
-    minidebug_init();
+    char data[10];
+    strcpy(data, "123456789\n");
 }

@@ -6,11 +6,6 @@ This code contains the init for the serial port and other required functions for
 #include <drivers/io.h>
 #include "commands/common.h"
 
-// Function prototypes
-void dump_registers_serial();
-void Serial_TraceStackTrace(unsigned int MaxFrames);
-void inspect_memory(const char* addr_str);
-
 #define PORT 0x3f8          // COM1
 
 static int init_serial() {
@@ -72,78 +67,4 @@ void minidebug_init() {
         puts_serial("Serial port is faulty. Exiting...\n");
         while(1);
     }
-    debug_shell();
-}
-
-void debug_shell() {
-    char input[256];
-    int index;
-
-    while (1) {
-        puts_serial("\nminidebug> ");
-        index = 0;
-
-        // Read a line of input
-        while (1) {
-            char c = getchar_serial();
-
-            if (c == '\r' || c == '\n') { // End of line
-                input[index] = '\0';
-                puts_serial("\r\n");
-                break;
-            } else if (c == '\b' && index > 0) { // Handle backspace
-                index--;
-                puts_serial("\b \b");
-            } else if (index < 255) { // Store input until max length
-                input[index++] = c;
-                putchar_serial(c);
-            }
-        }
-
-        // Command handling
-        if (strcmp(input, "exit") == 0) {
-            break;
-        } else if (strcmp(input, "regs") == 0) {
-            dump_registers_serial();
-        } else if (strcmp(input, "trace") == 0) {
-            Serial_TraceStackTrace(10);
-        } else if (strcmp(input, "memory") == 0) {
-            char addr_input[256];
-            uint32_t addr;
-
-            puts_serial("Enter memory address: ");
-            index = 0;
-
-            // Read memory address
-            while (1) {
-                char c = getchar_serial();
-                if (c == '\r' || c == '\n') {
-                    addr_input[index] = '\0';
-                    puts_serial("\r\n");
-                    break;
-                } else if (c == '\b' && index > 0) {
-                    index--;
-                    puts_serial("\b \b");
-                } else if (index < 255) {
-                    addr_input[index++] = c;
-                    putchar_serial(c);
-                }
-            }
-
-            // Convert the entered address to hexadecimal
-            addr = str_to_hex(addr_input);
-
-            if (addr == 0xFFFFFFFF) {
-                puts_serial("Invalid memory address\n");
-            } else {
-                inspect_memory(addr_input);
-            }
-        } else {
-            puts_serial("Unknown command\n");
-        }
-
-        puts_serial("\r\n");
-    }
-
-    puts_serial("Exiting...\n");
 }

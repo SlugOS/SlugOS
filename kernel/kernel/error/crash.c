@@ -3,6 +3,9 @@
 #include <slug.h>
 #include <drivers/vga.h>
 
+// A simple serial shell for debugging
+void debug_shell();
+
 const char* errorcode[] = {
     "DIVISION ERROR",            // 0
     "DEBUG",                     // 1
@@ -68,9 +71,8 @@ void crash(unsigned int errorcode) {
     // Print more specific info about the error
     printk("ERROR TYPE: %s\n", get_error_message(errorcode));
     #ifdef DEBUG
-    // Display a stack trace
-    TraceStackTrace(10);
+    // Start the debug shell
+    debug_shell();
     #endif
-    // Halt the CPU
-    asm("hlt");
+    while(1); // Loop forever to keep the system halted since interrupts are disabled
 }
