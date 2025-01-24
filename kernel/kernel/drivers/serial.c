@@ -59,8 +59,6 @@ char getchar_serial() {
 char* getstring_serial() {
    int index = 0;
    char* size_input;
-
-   puts_serial("Enter trace iterations: ");
    index = 0;
 
    while (1) {
