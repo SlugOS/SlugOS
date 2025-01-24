@@ -11,4 +11,4 @@ typedef int wint_t;  // By convention, wint_t is often defined as 'int'
 }
 #endif
 
-#endif /* WCHAR_H */
+#endif

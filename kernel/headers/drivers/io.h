@@ -15,4 +15,4 @@ void io_wait(void);
 }
 #endif
 
-#endif /* IO_H */
+#endif

@@ -19,4 +19,4 @@ int strcmp(const char *a, const char *b);
 }
 #endif
 
-#endif /* STRING_H */
+#endif

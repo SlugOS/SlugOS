@@ -1,4 +1,4 @@
 void user_main() {
-    asm("int $0x80"); // Anything interrupt will cause a GPF due to exceptions being kernel level only
+    asm("int $0x80"); // Call the current test API
     while(1);
 }

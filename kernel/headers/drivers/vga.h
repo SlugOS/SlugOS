@@ -7,7 +7,7 @@ extern "C" {
 
 #include <stdint.h>
 
-/* Hardware text mode color constants. */
+// Hardware text mode color constants.
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
 	VGA_COLOR_BLUE = 1,
@@ -38,4 +38,4 @@ uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
 }
 #endif
 
-#endif /* VGA_H */
+#endif
