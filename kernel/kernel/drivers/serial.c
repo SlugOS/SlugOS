@@ -1,14 +1,8 @@
-/*
-This code contains the init for the serial port and other required functions for minidebug
-*/
-
-#include <stddef.h>
 #include <drivers/io.h>
-#include "commands/common.h"
 
 #define PORT 0x3f8          // COM1
 
-static int init_serial() {
+int init_serial() {
    outb(PORT + 1, 0x00);    // Disable all interrupts
    outb(PORT + 3, 0x80);    // Enable DLAB (set baud rate divisor)
    outb(PORT + 0, 0x03);    // Set divisor to 3 (lo byte) 38400 baud
@@ -60,11 +54,4 @@ void puts_serial(const char* str) {
 char getchar_serial() {
    while (serial_received() == 0);
    return inb(PORT);
-}
-
-void minidebug_init() {
-    if (init_serial() == 1) {
-        puts_serial("Serial port is faulty. Exiting...\n");
-        while(1);
-    }
 }

@@ -4,10 +4,11 @@
 void install_gdt();
 void pic_init();
 void idt_init();
+int init_serial();
 
 void initialize() {
-    // Initalize the minidebug system for future use.
-    minidebug_init();
+    // Initalize the serial system for future use.
+    init_serial();
     // Setup VGA text mode so printk and other functions work
     terminal_initialize();
     // Setup the GDT this code allows us to use interrupts

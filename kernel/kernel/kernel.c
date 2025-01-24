@@ -5,7 +5,6 @@
 #include <boot/multiboot1.h>
 
 void initialize();
-void minidebug_init();
 
 bool quiet;
 
