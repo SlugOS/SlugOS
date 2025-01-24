@@ -1,11 +1,11 @@
 #include <drivers/vga.h>
 #include <slug.h>
 
-extern "C" void install_gdt();
-extern "C" void pic_init();
-extern "C" void idt_init();
+void install_gdt();
+void pic_init();
+void idt_init();
 
-void initalize() {
+void initialize() {
     // Setup VGA text mode so printk and other functions work
     terminal_initialize();
     // Setup the GDT this code allows us to use interrupts

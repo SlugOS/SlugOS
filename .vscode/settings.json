@@ -9,6 +9,7 @@
         "liballoc.h": "c",
         "io.h": "c",
         "ne2k.h": "c",
-        "vga.h": "c"
+        "vga.h": "c",
+        "multiboot1.h": "c"
     }
 }

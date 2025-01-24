@@ -52,3 +52,8 @@ char *strstr(const char *haystack, const char *needle) {
 
     return NULL; // No match found
 }
+
+int strcmp(const char *a, const char *b) {
+    while (*a && *a == *b) { ++a; ++b; }
+    return (int)(unsigned char)(*a) - (int)(unsigned char)(*b);
+}

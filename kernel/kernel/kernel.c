@@ -1,14 +1,15 @@
 #include <slug.h>
 #include <string.h>
+#include <stdbool.h>
 #include <drivers/vga.h>
 #include <boot/multiboot1.h>
 
-void initalize();
+void initialize();
 
 bool quiet;
 
-extern "C" void kernel_main(multiboot_info_t *multiboot_info) {
-    initalize();
+void kernel_main(multiboot_info_t *multiboot_info) {
+    initialize();
     // Check that quiet flag is not enabled
     if (strstr((const char*)multiboot_info->cmdline, "quiet") == NULL) {
 	    quiet = false;
@@ -18,7 +19,7 @@ extern "C" void kernel_main(multiboot_info_t *multiboot_info) {
         quiet = true;
     }
     #ifdef RSOD
-    // Force a SSP overflow
+    // Force a SSP call to test the crash code
     char data[10];
     strcpy(data, "123456789\n");
     #endif
