@@ -1,4 +1,4 @@
-#include <slug.h> //putchar
+#include <drivers/vga.h> //putchar
 #include <string.h> //strcpy, strcat, memcpy, memset
 #include <ctype.h> //isdigit
 #include <wchar.h> // wint_t

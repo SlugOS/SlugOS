@@ -7,7 +7,7 @@ extern uint32_t _kernel_end;  // The address of the end of the kernel, defined i
 #define MAX_ALLOC_SIZE 1048576 // 1MB (1024 * 1024 bytes)
 
 static volatile uint32_t lock = 0;  // 0 = unlocked, 1 = locked
-static uint32_t heap_start = (uint32_t) &_kernel_end;  // Start the heap at the kernel end address
+static uint32_t heap_start;  // Start the heap at the kernel end address
 
 // Free list to track freed memory blocks
 typedef struct FreeBlock {
@@ -16,6 +16,10 @@ typedef struct FreeBlock {
 } FreeBlock;
 
 static FreeBlock* free_list = NULL;  // Start with no free blocks
+
+void heap_init() {
+    heap_start = (uint32_t) &_kernel_end;
+}
 
 // Spin-lock logic: Try to set lock to 1 (locked)
 int liballoc_lock() {

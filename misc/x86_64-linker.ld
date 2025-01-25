@@ -4,6 +4,11 @@ SECTIONS
     . = 2M;
     KERNEL_VMA = .;
 
+    .multiboot : AT(ADDR(.multiboot) - KERNEL_VMA)
+    {
+        *(.multiboot)
+    }
+
     .text : AT(ADDR(.text) - KERNEL_VMA)
     {
         _code = .;

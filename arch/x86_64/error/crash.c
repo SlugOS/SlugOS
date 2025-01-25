@@ -4,9 +4,6 @@
 #include <drivers/vga.h>
 #include "code.h"
 
-// A simple serial shell for debugging
-void debug_shell();
-
 // Function to return the error message for a specific error code
 const char* get_error_message(int error_number) {
     // Return the corresponding error message from the array
@@ -35,9 +32,5 @@ void crash(unsigned int errorcode) {
     printk("ERROR CODE: %d\n", errorcode);
     // Print more specific info about the error
     printk("ERROR TYPE: %s\n", get_error_message(errorcode));
-    #ifdef DEBUG
-    // Start the debug shell
-    debug_shell();
-    #endif
     asm("hlt");
 }
