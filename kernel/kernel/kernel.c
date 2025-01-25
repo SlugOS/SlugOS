@@ -11,11 +11,12 @@ void jump_usermode();
 
 bool quiet;
 
+// This is a simple entry point to the kernel.
 void kernel_main(multiboot_info_t *multiboot_info) {
     initialize();
-    // Check that quiet flag is not enabled
+    // Check the quiet flag
     if (strstr(multiboot_info->cmdline, "quiet") == NULL) {
-	    quiet = false;
+        quiet = false;
         displaylogo();
     } else {
         // Quiet is enabled
@@ -26,7 +27,7 @@ void kernel_main(multiboot_info_t *multiboot_info) {
     char data[10];
     strcpy(data, "123456789\n");
     #endif
-    
+
     #ifdef i686
     jump_usermode();
     #endif

@@ -5,11 +5,6 @@
 extern "C" {
 #endif
 
-// The standard way to print out a single character
-void putchar(char c);
-// Unformatted way to print a string
-void writestring(const char* data);
-
 // A printf implementation
 int printk (const char* format, ...);
 

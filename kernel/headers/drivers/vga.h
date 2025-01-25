@@ -33,6 +33,10 @@ void terminal_initialize(void);
 void terminal_setcolor(uint8_t color);
 // Get a color code for the text (fg) and the background (bg) which you can pass to terminal_setcolor(uint8_t color);
 uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
+// The standard way to print out a single character
+void putchar(char c);
+// Unformatted way to print a string
+void writestring(const char* data);
 
 #ifdef __cplusplus
 }
