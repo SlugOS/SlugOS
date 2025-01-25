@@ -9,19 +9,10 @@ void initialize();
 void jump_usermode();
 #endif
 
-bool quiet;
-
 // This is a simple entry point to the kernel.
-void kernel_main(multiboot_info_t *multiboot_info) {
+void kernel_main() {
     initialize();
-    // Check the quiet flag
-    if (strstr(multiboot_info->cmdline, "quiet") == NULL) {
-        quiet = false;
-        displaylogo();
-    } else {
-        // Quiet is enabled
-        quiet = true;
-    }
+    displaylogo();
     #ifdef RSOD
     // Force a SSP call to test the crash code
     char data[10];
