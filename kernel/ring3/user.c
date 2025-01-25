@@ -1,4 +1,5 @@
 void user_main() {
-    asm("int $0x80"); // Call the current test API
+    // This calls our test kernel API
+    asm("int $0x80");
     while(1);
 }
