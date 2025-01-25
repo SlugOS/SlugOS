@@ -10,7 +10,6 @@ void dump_registers_serial();
 void Serial_TraceStackTrace(unsigned int MaxFrames);
 void inspect_memory(const char* addr_str);
 
-void puts_serial(const char* str);
 char* getstring_serial();
 
 void debug_shell() {

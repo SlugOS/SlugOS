@@ -25,4 +25,4 @@ run:
 
 # Debug target: start kernel in GDB for debugging
 debug:
-	qemu-system-i386 -s -S -hda slugos.img
+	qemu-system-i386 -s -S -hda slugos.img $(QEMUFLAGS) -serial tcp::1234,server
