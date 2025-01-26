@@ -18,8 +18,4 @@ void kernel_main() {
     char data[10];
     strcpy(data, "123456789\n");
     #endif
-
-    #ifdef i686
-    jump_usermode();
-    #endif
 }
