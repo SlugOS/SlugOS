@@ -1,54 +1,49 @@
-ENTRY(_start)
+ENTRY(start)
+
 SECTIONS
 {
-    . = 2M;
-    KERNEL_VMA = .;
+	/* It used to be universally recommended to use 1M as a start offset,
+	   as it was effectively guaranteed to be available under BIOS systems.
+	   However, UEFI has made things more complicated, and experimental data
+	   strongly suggests that 2M is a safer place to load. In 2016, a new
+	   feature was introduced to the multiboot2 spec to inform bootloaders
+	   that a kernel can be loaded anywhere within a range of addresses and
+	   will be able to relocate itself to run from such a loader-selected
+	   address, in order to give the loader freedom in selecting a span of
+	   memory which is verified to be available by the firmware, in order to
+	   work around this issue. This does not use that feature, so 2M was
+	   chosen as a safer option than the traditional 1M. */
+	. = 2M;
 
-    .multiboot : AT(ADDR(.multiboot) - KERNEL_VMA)
-    {
-        *(.multiboot)
-    }
+	/* First put the multiboot header, as it is required to be put very early
+	   in the image or the bootloader won't recognize the file format.
+	   Next we'll put the .text section. */
+	.text BLOCK(4K) : ALIGN(4K)
+	{
+		*(.multiboot_header)
+		*(.text)
+	}
 
-    .text : AT(ADDR(.text) - KERNEL_VMA)
-    {
-        _code = .;
-        *(.text)
-        *(.rodata*)
-        . = ALIGN(4096);
-    }
+	/* Read-only data. */
+	.rodata BLOCK(4K) : ALIGN(4K)
+	{
+		*(.rodata)
+	}
 
-   .data : AT(ADDR(.data) - KERNEL_VMA)
-   {
-        _data = .;
-        *(.data)
-        . = ALIGN(4096);
-   }
+	/* Read-write data (initialized) */
+	.data BLOCK(4K) : ALIGN(4K)
+	{
+		*(.data)
+	}
 
-   .eh_frame : AT(ADDR(.eh_frame) - KERNEL_VMA)
-   {
-       _ehframe = .;
-       *(.eh_frame)
-        . = ALIGN(4096);
-   }
+	/* Read-write data (uninitialized) and stack */
+	.bss BLOCK(4K) : ALIGN(4K)
+	{
+		*(COMMON)
+		*(.bss)
+	}
 
-   .bss : AT(ADDR(.bss) - KERNEL_VMA)
-   {
-       _bss = .;
-       *(.bss)
-
-       /*
-        * You usually need to include generated COMMON symbols
-        * under kernel BSS section or use gcc's -fno-common
-        */
-
-        *(COMMON)
-       . = ALIGN(4096);
-   }
-
-   _kernel_end = .;
-
-   /DISCARD/ :
-   {
-        *(.comment)
-   }
+	/* The compiler may produce other sections, by default it will put them in
+	   a segment with the same name. Simply add stuff here as needed. */
+	_kernel_end = .;
 }
