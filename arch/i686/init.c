@@ -2,7 +2,7 @@
 #include <slug.h>
 
 void install_gdt();
-void pic_init();
+void pic_disable();
 void idt_init();
 int init_serial();
 
@@ -14,7 +14,7 @@ void initialize() {
     // Setup the GDT this code allows us to use interrupts
     install_gdt();
     // Setup the PIC (the thing that allows keyboard input and such)
-    pic_init();
+    pic_disable();
     // Setup the interrupts
     idt_init();
 }
