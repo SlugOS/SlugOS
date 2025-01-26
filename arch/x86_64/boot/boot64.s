@@ -12,5 +12,7 @@ long_mode_start:
     mov fs, ax
     mov gs, ax
 
+    xor rbp, rbp ; Setup for a stack trace
+
 	call kernel_main
     hlt

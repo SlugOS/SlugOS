@@ -38,4 +38,4 @@ run-x86_64:
 
 # Debug target: start kernel with GDB for debugging
 debug-x86_64:
-	qemu-system-x86_64 -s -S -hda slugos.img $(QEMUFLAGS) -serial tcp::1234,server
+	qemu-system-x86_64 -s -S -hda slugos.img $(QEMUFLAGS) -serial tcp::1235,server

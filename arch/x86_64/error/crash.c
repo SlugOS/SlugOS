@@ -4,6 +4,8 @@
 #include <drivers/vga.h>
 #include "code.h"
 
+void TraceStackTrace(unsigned int MaxFrames);
+
 // Function to return the error message for a specific error code
 const char* get_error_message(int error_number) {
     // Return the corresponding error message from the array
@@ -32,5 +34,6 @@ void crash(unsigned int errorcode) {
     printk("ERROR CODE: %d\n", errorcode);
     // Print more specific info about the error
     printk("ERROR TYPE: %s\n", get_error_message(errorcode));
+    TraceStackTrace(10);
     asm("hlt");
 }

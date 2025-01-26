@@ -35,9 +35,13 @@ void crash(unsigned int errorcode) {
     printk("ERROR CODE: %d\n", errorcode);
     // Print more specific info about the error
     printk("ERROR TYPE: %s\n", get_error_message(errorcode));
-    #ifdef DEBUG
-    // Start the debug shell
-    debug_shell();
-    #endif
+    TraceStackTrace(10);
+    if (errorcode < 32) {
+        // This means it was an exception so we should spawn a debug shell
+        #ifdef DEBUG
+        // Start the debug shell
+        debug_shell();
+        #endif
+    }
     asm("hlt");
 }

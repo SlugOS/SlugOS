@@ -5,9 +5,6 @@
 #include <boot/multiboot1.h>
 
 void initialize();
-#ifdef i686
-void jump_usermode();
-#endif
 
 // This is a simple entry point to the kernel.
 void kernel_main() {
