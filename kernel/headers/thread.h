@@ -23,10 +23,15 @@ typedef struct {
     void* arg;
 } thread_t;
 
+// Declare thread_pool as external
+extern thread_t thread_pool[MAX_THREADS];
+
 // Initialize a new thread
 uint32_t thread_create(void (*entry)(void*), void* arg);
 // Remove a thread
 bool thread_terminate(uint32_t thread_id);
+// Simple runner function to execute a thread
+void run_thread(uint32_t thread_id);
 // Get thread state
 thread_state_t thread_get_state(uint32_t thread_id);
 // Get current thread ID

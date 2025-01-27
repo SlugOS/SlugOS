@@ -5,9 +5,10 @@
 #define MAX_THREADS 256
 #define STACK_SIZE 4096
 
-static thread_t thread_pool[MAX_THREADS];
 static uint32_t current_thread = 0;
 static uint32_t thread_count = 0;
+
+thread_t thread_pool[MAX_THREADS];
 
 // Initialize a new thread
 uint32_t thread_create(void (*entry)(void*), void* arg) {
@@ -39,6 +40,30 @@ bool thread_terminate(uint32_t thread_id) {
     
     thread_pool[thread_id].state = THREAD_TERMINATED;
     return true;
+}
+
+// Simple runner function to execute a thread
+void run_thread(uint32_t thread_id) {
+    if (thread_id >= MAX_THREADS || thread_pool[thread_id].state != THREAD_READY) {
+        return;
+    }
+
+    thread_t* thread = &thread_pool[thread_id];
+
+    // Update thread state to RUNNING
+    thread->state = THREAD_RUNNING;
+
+    // Switch to the thread's stack and execute the entry point
+    asm volatile(
+        "movq %0, %%rsp \n"  // Set %rsp to the thread's stack pointer
+        "call *%1 \n"        // Call the thread's entry point
+        :
+        : "r"(thread->rsp), "r"(thread->entry_point)
+        : "rsp"
+    );
+
+    // Mark the thread as TERMINATED after execution
+    thread->state = THREAD_TERMINATED;
 }
 
 // Get thread state
