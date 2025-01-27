@@ -1,24 +1,9 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <thread.h>
 
 #define MAX_THREADS 256
 #define STACK_SIZE 4096
-
-typedef enum {
-    THREAD_READY,
-    THREAD_RUNNING,
-    THREAD_BLOCKED,
-    THREAD_TERMINATED
-} thread_state_t;
-
-typedef struct {
-    uint64_t rsp;           // Stack pointer
-    uint64_t stack[STACK_SIZE];
-    thread_state_t state;
-    uint32_t id;
-    void (*entry_point)(void*);
-    void* arg;
-} thread_t;
 
 static thread_t thread_pool[MAX_THREADS];
 static uint32_t current_thread = 0;
