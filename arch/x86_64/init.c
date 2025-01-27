@@ -1,6 +1,6 @@
 #include <drivers/vga.h>
+#include <drivers/serial.h>
 
-int init_serial();
 void pic_disable(void);
 void idt_init();
 

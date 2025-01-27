@@ -1,3 +1,4 @@
+#include <drivers/serial.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <thread.h>
@@ -12,6 +13,7 @@ thread_t thread_pool[MAX_THREADS];
 
 // Initialize a new thread
 uint32_t thread_create(void (*entry)(void*), void* arg) {
+    puts_serial("Creating new thread\n");
     if (thread_count >= MAX_THREADS) {
         return 0;
     }
@@ -34,6 +36,7 @@ uint32_t thread_create(void (*entry)(void*), void* arg) {
 
 // Remove a thread
 bool thread_terminate(uint32_t thread_id) {
+    puts_serial("Terminating thread\n");
     if (thread_id >= thread_count) {
         return false;
     }
@@ -44,6 +47,7 @@ bool thread_terminate(uint32_t thread_id) {
 
 // Simple runner function to execute a thread
 void run_thread(uint32_t thread_id) {
+    puts_serial("Running new thread\n");
     if (thread_id >= MAX_THREADS || thread_pool[thread_id].state != THREAD_READY) {
         return;
     }

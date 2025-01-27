@@ -13,7 +13,7 @@
             "configurationProvider": "ms-vscode.makefile-tools"
         },
         {
-            "name": "SlugOS",
+            "name": "SlugOS-x86_64",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
