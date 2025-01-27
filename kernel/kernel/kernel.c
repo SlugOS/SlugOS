@@ -1,8 +1,9 @@
 #include <slug.h>
-#include <string.h>
-#include <stdbool.h>
 #include <drivers/vga.h>
-#include <boot/multiboot1.h>
+
+#ifdef RSOD
+#include <string.h>
+#endif
 
 void initialize();
 
