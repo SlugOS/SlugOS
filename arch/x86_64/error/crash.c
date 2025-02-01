@@ -2,9 +2,8 @@
 
 #include <slug.h>
 #include <drivers/vga.h>
+#include <drivers/serial.h>
 #include "errors.h"
-
-void TraceStackTrace(unsigned int MaxFrames);
 
 // Function to return the error message for a specific error code
 const char* get_error_message(int error_number) {
@@ -15,24 +14,42 @@ const char* get_error_message(int error_number) {
     return "UNKNOWN ERROR";  // Fallback in case the error_number is out of bounds
 }
 
-// This function is called to crash the OS with an error code that can be a negitive and a positive
-__attribute__((noreturn)) // This function does not return
-void crash(unsigned int errorcode) {
-    asm("cli"); // Disable interrupts so nothing can get us out of this screen
-    // Set the text to be light grey and the background to be red
-    terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_RED));
-    // Clear the screen
-    clear_screen();
-    // Print out our banner
+void crash_banner() {
     printk("--------------------------------------------------------------------------------");
     printk("|                             SLUGOS HALTED SYSTEM                             |");
     printk("|                             Oops, something broke!                           |");
     printk("--------------------------------------------------------------------------------");
-    // Print more specific info about the error
+}
+
+void serial_log(int errorcode);
+
+// This function is for a critical crash such as a CPU exception, a generic kernel panic, or SSP overflow and more
+__attribute__((noreturn)) // This function does not return
+void crash(unsigned int errorcode) {
+    // Disable interrupts so we cannot exit the RSOD
+    asm("cli");
+    // Set the text to be light grey and the background to be red
+    terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_RED));
+    clear_screen();
+    crash_banner();
+    // Print information about the error
     printk("ERROR: %s\n", get_error_message(errorcode));
+    printk("ERROR CODE: %d\n", errorcode);
     #ifdef DEBUG
+    // Run a stack trace
     TraceStackTrace(10);
     #endif
     printk("Please reboot the system.\n");
+    // Log to serial
+    serial_log(errorcode);
     asm("hlt");
+}
+
+void serial_log(int errorcode) {
+    // Report all of this info to the serial port + some extra stuff
+    puts_serial("==== CRASH INFO ====\n");
+    // Use snprintf to combine the error message and a newline into the buffer.
+    printf_serial("ERROR: %s\n", get_error_message(errorcode));
+    printf_serial("ERRORCODE: %d\n", errorcode);
+    puts_serial("==== END OF CRASH INFO ====\n");
 }

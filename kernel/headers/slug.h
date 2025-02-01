@@ -29,6 +29,8 @@ void crash(unsigned int errorcode);
 // Display our logo
 void displaylogo();
 
+int snprintf(char *buffer, int size, const char *format, ...);
+
 #ifdef __cplusplus
 }
 #endif
