@@ -35,8 +35,8 @@ void crash(unsigned int errorcode) {
     // Print information about the error
     printk("ERROR: %s\n", get_error_message(errorcode));
     printk("ERROR CODE: %d\n", errorcode);
+    // Run a stack trace if in debug mode
     #ifdef DEBUG
-    // Run a stack trace
     TraceStackTrace(10);
     #endif
     printk("Please reboot the system.\n");
@@ -47,9 +47,9 @@ void crash(unsigned int errorcode) {
 
 void serial_log(int errorcode) {
     // Report all of this info to the serial port + some extra stuff
-    puts_serial("==== CRASH INFO ====\n");
+    printf_serial("==== CRASH INFO ====\n");
     // Use snprintf to combine the error message and a newline into the buffer.
     printf_serial("ERROR: %s\n", get_error_message(errorcode));
     printf_serial("ERRORCODE: %d\n", errorcode);
-    puts_serial("==== END OF CRASH INFO ====\n");
+    printf_serial("==== END OF CRASH INFO ====\n");
 }
