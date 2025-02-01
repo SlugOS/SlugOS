@@ -2,7 +2,7 @@
 
 #include <slug.h>
 #include <drivers/vga.h>
-#include "code.h"
+#include "errors.h"
 
 void TraceStackTrace(unsigned int MaxFrames);
 
@@ -23,17 +23,16 @@ void crash(unsigned int errorcode) {
     terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_RED));
     // Clear the screen
     clear_screen();
-    // Print our logo
-    displaylogo();
     // Print out our banner
     printk("--------------------------------------------------------------------------------");
     printk("|                             SLUGOS HALTED SYSTEM                             |");
     printk("|                             Oops, something broke!                           |");
     printk("--------------------------------------------------------------------------------");
-    // Print the errorcode
-    printk("ERROR CODE: %d\n", errorcode);
     // Print more specific info about the error
-    printk("ERROR TYPE: %s\n", get_error_message(errorcode));
+    printk("ERROR: %s\n", get_error_message(errorcode));
+    #ifdef DEBUG
     TraceStackTrace(10);
+    #endif
+    printk("Please reboot the system.\n");
     asm("hlt");
 }

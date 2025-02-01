@@ -35,6 +35,7 @@ const char* errorcode[] = {
     "SECURITY EXCEPTION",        // 28
     "RESERVED",                  // 29
     "FPU ERROR INTERRUPT",       // 30
+    // These are issues that are non CPU exceptions like memory errors (such as SSP)
     "SSP VIOLATION",             // 31
     "KERNEL PANIC (GENERIC)",    // 32
 };
