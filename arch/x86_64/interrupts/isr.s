@@ -1,16 +1,18 @@
 %macro isr_err_stub 1
 isr_stub_%+%1:
-    push %1                    ; Push the interrupt number onto the stack
+    push rax                   ; Save registers that we'll use
+    mov rdi, %1               ; First argument in rdi (interrupt number)
     call exception_handler
-    add esp, 4                 ; Clean up the stack (pop the interrupt number)
+    pop rax                    ; Restore registers
     iretq
 %endmacro
-; if writing for 64-bit, use iretq instead
+
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
-    push %1                    ; Push the interrupt number onto the stack
+    push rax                   ; Save registers that we'll use
+    mov rdi, %1               ; First argument in rdi (interrupt number)
     call exception_handler
-    add esp, 4                 ; Clean up the stack (pop the interrupt number)
+    pop rax                    ; Restore registers
     iretq
 %endmacro
 
