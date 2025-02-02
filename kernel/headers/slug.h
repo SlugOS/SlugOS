@@ -32,7 +32,7 @@ void displaylogo();
 int snprintf(char *buffer, int size, const char *format, ...);
 
 // Add to the system log
-void add_to_log(const char *msg);
+void add_to_log(const char *msg, ...);
 
 #ifdef __cplusplus
 }

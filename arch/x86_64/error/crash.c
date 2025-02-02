@@ -44,8 +44,13 @@ void crash(unsigned int errorcode) {
     crash_banner();
     
     // Print information about the error
-    printk("ERROR: %s\n", get_error_message(errorcode));
-    printk("ERROR CODE: %d\n", errorcode);
+    printk("Error information:\n");
+    printk("  ERROR: %s\n", get_error_message(errorcode));
+    printk("  ERROR CODE: %d\n", errorcode);
+    // Add the same info to the log
+    add_to_log("Error information:");
+    add_to_log("  ERROR: %s", get_error_message(errorcode));
+    add_to_log("  ERROR CODE: %d", errorcode);
     
     // Run a stack trace if in debug mode
     #ifdef DEBUG
