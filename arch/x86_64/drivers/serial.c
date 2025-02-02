@@ -1,6 +1,9 @@
 #include <drivers/io.h>
+#include <stdbool.h>
 
 #define PORT 0x3f8          // COM1
+
+static bool fail = 0;
 
 int init_serial() {
    outb(PORT + 1, 0x00);    // Disable all interrupts
@@ -15,6 +18,7 @@ int init_serial() {
 
    // Check if serial is faulty (i.e: not same byte as sent)
    if(inb(PORT + 0) != 0xAE) {
+      fail = true;
       return 1;
    }
 
@@ -35,6 +39,9 @@ void putchar_serial(char a) {
 }
 
 void puts_serial(const char* str) {
+   if (fail == true) {
+      return;
+   }
    while (*str) {
       putchar_serial(*str);
       str++;

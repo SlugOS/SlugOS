@@ -47,10 +47,10 @@ bool thread_terminate(uint32_t thread_id) {
 
 // Simple runner function to execute a thread
 void run_thread(uint32_t thread_id) {
-    puts_serial("Running new thread\n");
     if (thread_id >= MAX_THREADS || thread_pool[thread_id].state != THREAD_READY) {
         return;
     }
+    puts_serial("Running new thread\n");
 
     thread_t* thread = &thread_pool[thread_id];
 

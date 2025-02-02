@@ -46,6 +46,8 @@ void crash(unsigned int errorcode) {
 }
 
 void serial_log(int errorcode) {
+    // Clear the serial terminal
+    printf_serial("\033[2J\033[H");
     // Report all of this info to the serial port + some extra stuff
     printf_serial("==== CRASH INFO ====\n");
     // Use snprintf to combine the error message and a newline into the buffer.
