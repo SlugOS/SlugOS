@@ -38,14 +38,14 @@ void key_handler(struct interrupt_frame *frame) {
     
     // Basic US QWERTY scancode mapping
     const char *key_map[] = {
-        "ERROR", "Esc", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
-        "-", "=", "Backspace", "Tab", "Q", "W", "E", "R", "T", "Y", "U",
-        "I", "O", "P", "[", "]", "\n", "LCtrl", "A", "S", "D", "F",
-        "G", "H", "J", "K", "L", ";", "'", "`", "LShift", "\\", "Z", "X",
-        "C", "V", "B", "N", "M", ",", ".", "/", "RShift", "*", "LAlt",
+        "ERROR", "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+        "-", "=", "\b", "\t", "Q", "W", "E", "R", "T", "Y", "U",
+        "I", "O", "P", "[", "]", "\n", "", "A", "S", "D", "F",
+        "G", "H", "J", "K", "L", ";", "'", "`", "", "\\", "Z", "X",
+        "C", "V", "B", "N", "M", ",", ".", "/", "", "*", "",
         " "
     };
-    
+
     // Only print on key press, not release
     if (!is_release && key < sizeof(key_map)/sizeof(key_map[0])) {
         printk("%s", key_map[key]);

@@ -70,6 +70,25 @@ void putchar(char c) {
 			terminal_row = VGA_HEIGHT - 1;
 		}
 		return;
+	} else if (c == '\t') {
+		terminal_column += 4;
+		if (terminal_column >= VGA_WIDTH) {
+			terminal_column = 0;
+			if (++terminal_row == VGA_HEIGHT) {
+				terminal_scroll();
+				terminal_row = VGA_HEIGHT - 1;
+			}
+		}
+		return;
+	} else if (c == '\b') {
+		if (terminal_column > 0) {
+			terminal_column--;
+		} else if (terminal_row > 0) {
+			terminal_column = VGA_WIDTH - 1;
+			terminal_row--;
+		}
+		terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+		return;
 	}
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if (++terminal_column == VGA_WIDTH) {
