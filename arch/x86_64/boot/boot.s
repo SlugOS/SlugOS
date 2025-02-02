@@ -14,7 +14,7 @@ start:
 	call enable_paging
 
 	lgdt [gdt64.pointer]
-	jmp gdt64.code_segment:long_mode_start
+	jmp gdt64.kernel_code_segment:long_mode_start
 
 	hlt
 
@@ -128,9 +128,39 @@ stack_top:
 
 section .rodata
 gdt64:
-	dq 0 ; zero entry
-.code_segment: equ $ - gdt64
-	dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53) ; code segment
+	dq 0 ; null descriptor
+.kernel_code_segment: equ $ - gdt64
+	dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53) ; kernel code segment
+.kernel_data_segment: equ $ - gdt64
+	dq (1 << 44) | (1 << 47) | (1 << 41) ; kernel data segment
+.user_code_segment: equ $ - gdt64
+	dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53) | (3 << 45) ; user code segment
+.user_data_segment: equ $ - gdt64
+	dq (1 << 44) | (1 << 47) | (1 << 41) | (3 << 45) ; user data segment
+.tss_segment: equ $ - gdt64
+	dw 0                          ; Segment Limit
+	dw 0                          ; Base (low 16 bits)
+	db 0                          ; Base (middle 8 bits)
+	db 0b10001001                 ; Access byte - Present, DPL=0, TSS
+	db 0                          ; Flags and high limit
+	db 0                          ; Base (high 8 bits)
+	dd 0                          ; Base (upper 32 bits)
+	dd 0                          ; Reserved
 .pointer:
 	dw $ - gdt64 - 1 ; length
 	dq gdt64 ; address
+
+section .bss
+align 16
+tss_start:
+	resb 104                      ; Basic TSS structure
+	resq 1                        ; IST1
+	resq 7                        ; IST2-7 + reserved
+	resq 1                        ; I/O Map Base Address
+tss_end:
+
+section .data
+align 4096
+tss_stack_bottom:
+	resb 4096 * 2                ; 8KB TSS stack
+tss_stack_top:

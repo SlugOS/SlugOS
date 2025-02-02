@@ -7,8 +7,11 @@ void PIC_remap(int offset1, int offset2);
 void IRQ_clear_mask(uint8_t IRQline);
 void idt_init();
 void heap_init();
+void jump_usermode();
 
 void initialize() {
+    // Setup the GDT again
+    add_to_log("GDT initialized");
     // Setup VGA text mode so printk and other functions work
     terminal_initialize();
     add_to_log("VGA initialized");
