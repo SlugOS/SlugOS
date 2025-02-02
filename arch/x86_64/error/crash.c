@@ -55,7 +55,6 @@ void crash(unsigned int errorcode) {
     // Run a stack trace if in debug mode
     #ifdef DEBUG
     debug = true;
-    TraceStackTrace(10);
     printk("Debug Shell Type HELP for help\n");
     printk("> ");
     #else

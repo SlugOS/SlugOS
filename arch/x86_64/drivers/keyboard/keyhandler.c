@@ -37,7 +37,7 @@ static int buffer_pos = 0;
 
 extern bool debug;
 
-void execute_command(const char *cmd);
+void execute_command(const char *cmd, struct interrupt_frame *frame);
 
 void key_handler(struct interrupt_frame *frame) {
     uint8_t scancode = inb(0x60);
@@ -59,7 +59,7 @@ void key_handler(struct interrupt_frame *frame) {
             if (key == ENTER_KEY) {
                 cmd_buffer[buffer_pos] = '\0';
                 printk("\n");
-                execute_command(cmd_buffer);
+                execute_command(cmd_buffer, frame);
                 buffer_pos = 0;
                 memset(cmd_buffer, 0, BUFFER_SIZE);
                 printk("> ");
