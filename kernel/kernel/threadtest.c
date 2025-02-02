@@ -18,15 +18,9 @@ int thread_test() {
     uint32_t thread1 = thread_create(thread_function_1, NULL);
     uint32_t thread2 = thread_create(thread_function_2, NULL);
 
-    while(1) {
-        // Run the threads
-        run_thread(thread1);
-        run_thread(thread2);
-    }
-
-    // Delete the threads
-    thread_terminate(thread1);
-    thread_terminate(thread2);
+    // Run the threads
+    run_thread(thread1);
+    run_thread(thread2);
 
     return 0;
 }

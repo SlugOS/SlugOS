@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <drivers/io.h>
 #include <stdint.h>
+#include <string.h>
 #include <slug.h>
 
 struct interrupt_frame {
@@ -28,15 +29,21 @@ struct interrupt_frame {
     uint64_t ss;
 };
 
+#define BUFFER_SIZE 256
+#define ENTER_KEY 0x1C
+
+static char cmd_buffer[BUFFER_SIZE];
+static int buffer_pos = 0;
+
+extern bool debug;
+
+void execute_command(const char *cmd);
+
 void key_handler(struct interrupt_frame *frame) {
-    // Read from the data port
     uint8_t scancode = inb(0x60);
-    
-    // Determine if this is a key press or release
     bool is_release = (scancode & 0x80) != 0;
-    uint8_t key = scancode & 0x7F;  // Remove the release bit
-    
-    // Basic US QWERTY scancode mapping
+    uint8_t key = scancode & 0x7F;
+
     const char *key_map[] = {
         "ERROR", "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
         "-", "=", "\b", "\t", "Q", "W", "E", "R", "T", "Y", "U",
@@ -46,11 +53,27 @@ void key_handler(struct interrupt_frame *frame) {
         " "
     };
 
-    // Only print on key press, not release
+
     if (!is_release && key < sizeof(key_map)/sizeof(key_map[0])) {
-        printk("%s", key_map[key]);
+        if (debug) {
+            if (key == ENTER_KEY) {
+                cmd_buffer[buffer_pos] = '\0';
+                printk("\n");
+                execute_command(cmd_buffer);
+                buffer_pos = 0;
+                memset(cmd_buffer, 0, BUFFER_SIZE);
+                printk("> ");
+            } else if (strcmp(key_map[key], "\b") == 0 && buffer_pos > 0) {
+                buffer_pos--;
+                printk("\b \b");
+            } else if (buffer_pos < BUFFER_SIZE - 1 && strlen(key_map[key]) == 1) {
+                cmd_buffer[buffer_pos++] = key_map[key][0];
+                printk("%s", key_map[key]);
+            }
+        } else {
+            printk("%s", key_map[key]);
+        }
     }
-    
-    // Acknowledge the interrupt to the master PIC
+
     outb(0x20, 0x20);
 }
