@@ -1,3 +1,6 @@
+extern exception_handler
+extern exception_handler_recoverable
+
 %macro isr_err_stub 1
 isr_stub_%+%1:
     ; Save all general-purpose registers
@@ -59,7 +62,7 @@ isr_stub_%+%1:
     push r15
 
     mov rdi, %1               ; First argument in rdi (interrupt number)
-    call exception_handler
+    call exception_handler_recoverable
 
     ; Restore all registers in reverse order
     pop r15
@@ -80,7 +83,6 @@ isr_stub_%+%1:
     iretq
 %endmacro
 
-extern exception_handler
 isr_no_err_stub 0
 isr_no_err_stub 1
 isr_no_err_stub 2

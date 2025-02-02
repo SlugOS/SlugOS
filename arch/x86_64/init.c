@@ -5,6 +5,7 @@
 void pic_disable(void);
 void PIC_remap(int offset1, int offset2);
 void idt_init();
+void heap_init();
 
 void initialize() {
     // Setup VGA text mode so printk and other functions work
@@ -17,4 +18,6 @@ void initialize() {
     PIC_remap(0x20, 0x2F);
     // Since we already setup the GDT we will now setup interrupts
     idt_init();
+    // Setup the heap
+    heap_init();
 }

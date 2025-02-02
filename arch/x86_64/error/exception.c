@@ -26,8 +26,22 @@ struct interrupt_frame {
     uint64_t ss;
 };
 
+const char* get_error_message(int error_number);
+
+void recover(uint64_t interrupt_number) {
+    #ifdef DEBUG
+    printk("Recoverable error %s\n", get_error_message(interrupt_number));
+    #endif
+    return;
+}
+
 __attribute__((noreturn))
 void exception_handler(uint64_t interrupt_number, struct interrupt_frame* frame) {
     // Now we have access to both the interrupt number and the complete CPU state
     crash(interrupt_number);
+}
+
+void exception_handler_recoverable(uint64_t interrupt_number, struct interrupt_frame* frame) {
+    // Now we have access to both the interrupt number and the complete CPU state
+    recover(interrupt_number);
 }
