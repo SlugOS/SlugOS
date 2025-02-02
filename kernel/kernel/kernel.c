@@ -22,6 +22,5 @@ void kernel_main() {
     #ifdef DEBUG
     thread_test();
     #endif
-    crash(32);
     while(1); // Do nothing until next interrupt
 }
