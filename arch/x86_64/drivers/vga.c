@@ -46,29 +46,37 @@ static void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) {
 	terminal_buffer[index] = vga_entry(c, color);
 }
 
+void terminal_scroll() {
+	// Move every line up by one
+	for (size_t y = 1; y < VGA_HEIGHT; y++) {
+		for (size_t x = 0; x < VGA_WIDTH; x++) {
+			const size_t to_index = (y - 1) * VGA_WIDTH + x;
+			const size_t from_index = y * VGA_WIDTH + x;
+			terminal_buffer[to_index] = terminal_buffer[from_index];
+		}
+	}
+	// Clear the last line
+	for (size_t x = 0; x < VGA_WIDTH; x++) {
+		const size_t index = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
+		terminal_buffer[index] = vga_entry(' ', terminal_color);
+	}
+}
+
 void putchar(char c) {
-	if (c == '\n' || c == '\r') {
-		terminal_row++;
+	if (c == '\n') {
 		terminal_column = 0;
+		if (++terminal_row == VGA_HEIGHT) {
+			terminal_scroll();
+			terminal_row = VGA_HEIGHT - 1;
+		}
 		return;
 	}
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
 		if (++terminal_row == VGA_HEIGHT) {
-			// Scroll the terminal up by 1 row
-			for (size_t y = 1; y < VGA_HEIGHT; y++) {
-				for (size_t x = 0; x < VGA_WIDTH; x++) {
-					const size_t from = y * VGA_WIDTH + x;
-					const size_t to = (y - 1) * VGA_WIDTH + x;
-					terminal_buffer[to] = terminal_buffer[from];
-				}
-			}
-			// Clear the last row (this prevents the terminal from showing garbage when scrolled)
-			for (size_t x = 0; x < VGA_WIDTH; x++) {
-				terminal_buffer[(VGA_HEIGHT - 1) * VGA_WIDTH + x] = vga_entry(' ', terminal_color);
-			}
-			terminal_row = VGA_HEIGHT - 1;  // Ensure cursor stays within bounds after scrolling
+			terminal_scroll();
+			terminal_row = VGA_HEIGHT - 1;
 		}
 	}
 }
