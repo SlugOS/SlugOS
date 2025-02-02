@@ -21,6 +21,6 @@ void kernel_main() {
 
     #ifdef DEBUG
     thread_test();
-    add_to_log("Thread test complete");
     #endif
+    while(1); // Do nothing until next interrupt
 }
