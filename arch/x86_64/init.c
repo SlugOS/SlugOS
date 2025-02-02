@@ -31,5 +31,4 @@ void initialize() {
     // Setup the heap
     heap_init();
     add_to_log("Heap initialized");
-    crash(32);
 }
