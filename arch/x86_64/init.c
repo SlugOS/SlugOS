@@ -8,7 +8,6 @@ void PIC_remap(int offset1, int offset2);
 void IRQ_clear_mask(uint8_t IRQline);
 void idt_init();
 void heap_init();
-void jump_usermode();
 
 void initialize() {
     // Setup the GDT again

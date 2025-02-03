@@ -23,8 +23,5 @@ void kernel_main() {
     #ifdef DEBUG
     thread_test();
     #endif
-    while(1) {
-        // Just make sure the watchdog is working and just do nothing until the next interrupt
-        check_watchdog();
-    }
+    while(1);
 }

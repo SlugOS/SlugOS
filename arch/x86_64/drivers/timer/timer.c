@@ -7,14 +7,10 @@
 #define IRQ0_HANDLER_PORT 0x20  // Typically 0x20 for PIC1 EOI
 
 volatile uint32_t tick_count = 0;  // System tick counter, incremented every IRQ0 interrupt
-volatile uint32_t watchdog_counter = 0;  // Watchdog counter to track watchdog timeout
 
 // IRQ0 handler function
 void IRQ0_handler() {
     tick_count++;  // Increment the system tick counter
-
-    // Reset the watchdog timer (kick the watchdog)
-    watchdog_counter = 0;
 
     // Send End-of-Interrupt (EOI) signal to the PIC (Programmable Interrupt Controller)
     outb(IRQ0_HANDLER_PORT, 0x20);  // EOI signal for PIC1 (master PIC)
