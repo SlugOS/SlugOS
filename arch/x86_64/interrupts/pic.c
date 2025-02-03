@@ -25,6 +25,7 @@ void pic_disable(void) {
     outb(PIC2_DATA, 0xff);
 }
 
+// Remap the PIC to the specified offsets
 void PIC_remap(int offset1, int offset2) {
 	uint8_t a1, a2;
 	
@@ -53,6 +54,7 @@ void PIC_remap(int offset1, int offset2) {
 	outb(PIC2_DATA, a2);
 }
 
+// Enable an IRQ
 void IRQ_clear_mask(uint8_t IRQline) {
     uint16_t port;
     uint8_t value;

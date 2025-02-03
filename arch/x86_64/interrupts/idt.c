@@ -50,8 +50,8 @@ void idt_init() {
         vectors[vector] = true;
     }
 
-    idt_set_descriptor(32, timer_stub, 0x8E);
-    idt_set_descriptor(33, key_stub, 0x8E);
+    idt_set_descriptor(32, timer_stub, 0x8E); // The PIT timer
+    idt_set_descriptor(33, key_stub, 0x8E); // The PS/2 keyboard code
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag

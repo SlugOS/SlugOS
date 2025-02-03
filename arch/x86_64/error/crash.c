@@ -1,15 +1,15 @@
-// This is when something in the kernel crashes and its critcal
-
 #include <slug.h>
 #include <stdbool.h>
 #include <drivers/vga.h>
 #include <drivers/serial.h>
 #include "errors.h"
 
+// Function declarations
 void serial_log(int errorcode);
 void pic_disable(void);
 void IRQ_clear_mask(uint8_t IRQline);
 
+// This is what sets up the debug shell
 bool debug = false;
 
 // Function to return the error message for a specific error code
@@ -28,15 +28,26 @@ void crash_banner() {
     printk("--------------------------------------------------------------------------------");
 }
 
-// This function is for a critical crash such as a CPU exception, a generic kernel panic, or SSP overflow and more
+void serial_log(int errorcode) {
+    // Clear the serial terminal
+    printf_serial("\033[2J\033[H");
+    // Report all of this info to the serial port + some extra stuff
+    printf_serial("==== CRASH INFO ====\n");
+    // Use snprintf to combine the error message and a newline into the buffer.
+    printf_serial("ERROR: %s\n", get_error_message(errorcode));
+    printf_serial("ERRORCODE: %d\n", errorcode);
+    printf_serial("==== END OF CRASH INFO ====\n");
+}
+
+// Simple crash handler
 __attribute__((noreturn)) // This function does not return
 void crash(unsigned int errorcode) {
-    // First log to serial before we potentially mess with interrupts
+    // First log to serial before we mess with interrupts
     serial_log(errorcode);
 
     // Mask the PIC IRQs then enable the keyboard
     pic_disable();
-    IRQ_clear_mask(1);
+    IRQ_clear_mask(1); // Keyboard
     
     // Set the text to be light grey and the background to be red
     terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_RED));
@@ -52,9 +63,11 @@ void crash(unsigned int errorcode) {
     add_to_log("  ERROR: %s", get_error_message(errorcode));
     add_to_log("  ERROR CODE: %d", errorcode);
     
-    // Run a stack trace if in debug mode
+    // Start the debug shell (commands handled by keyboard driver)
     #ifdef DEBUG
+    // Set debug to be true
     debug = true;
+
     printk("Debug Shell Type HELP for help\n");
     printk("> ");
     #else
@@ -65,15 +78,4 @@ void crash(unsigned int errorcode) {
     while(1) {
         asm volatile("hlt");
     }
-}
-
-void serial_log(int errorcode) {
-    // Clear the serial terminal
-    printf_serial("\033[2J\033[H");
-    // Report all of this info to the serial port + some extra stuff
-    printf_serial("==== CRASH INFO ====\n");
-    // Use snprintf to combine the error message and a newline into the buffer.
-    printf_serial("ERROR: %s\n", get_error_message(errorcode));
-    printf_serial("ERRORCODE: %d\n", errorcode);
-    printf_serial("==== END OF CRASH INFO ====\n");
 }
