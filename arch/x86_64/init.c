@@ -2,51 +2,44 @@
 #include <drivers/serial.h>
 #include <slug.h>
 
-// Function declarations
 void pic_disable(void);
-void pit_init(void);
+void pit_init();
 void PIC_remap(int offset1, int offset2);
 void IRQ_clear_mask(uint8_t IRQline);
-void idt_init(void);
-void heap_init(void);
-void jump_usermode(void);
-void scheduler_init(void);
+void idt_init();
+void heap_init();
+void jump_usermode();
 
-// Initializes core system components
-void initialize(void) {
-    // Display subsystem initialization
+void initialize() {
+    // Setup the GDT again
+    add_to_log("GDT initialized");
+    // Setup VGA text mode so printk and other functions work
     terminal_initialize();
     add_to_log("VGA initialized");
-
-    // Serial subsystem initialization
-    if (init_serial() != 0) {
-        add_to_log("Serial initialization failed");
+    // Setup serial communication for the debug shell
+    if (init_serial() == 1) {
+        add_to_log("Serial initialize failed");
     } else {
         add_to_log("Serial initialized");
     }
-
-    // Interrupt handling setup
+    // Disable all of the PIC interrupts
     pic_disable();
+    // Setup the PIT
     pit_init();
-    PIC_remap(0x20, 0x2F);
-    
-    // Unmask necessary interrupt lines
-    IRQ_clear_mask(0);    // PIT
-    IRQ_clear_mask(1);    // Keyboard
-    
     add_to_log("PIT initialized");
+    // Remap the PIC
+    PIC_remap(0x20, 0x2F);
     add_to_log("PIC remapped");
-    add_to_log("Interrupt lines unmasked");
-
-    // IDT initialization
+    // Unmask the keyboard
+    IRQ_clear_mask(1);
+    add_to_log("Keyboard unmasked");
+    // Unmask the PIT
+    IRQ_clear_mask(0);
+    add_to_log("PIT unmasked");
+    // Since we already setup the GDT we will now setup interrupts
     idt_init();
     add_to_log("IDT initialized");
-
-    // Heap initialization
+    // Setup the heap
     heap_init();
     add_to_log("Heap initialized");
-
-    // Scheduler initialization
-    scheduler_init();
-    add_to_log("Scheduler initialized");
 }
