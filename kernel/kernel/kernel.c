@@ -6,6 +6,7 @@
 #endif
 
 void initialize();
+void check_watchdog();
 int thread_test();
 
 // This is a simple entry point to the kernel.
@@ -22,5 +23,8 @@ void kernel_main() {
     #ifdef DEBUG
     thread_test();
     #endif
-    while(1); // Do nothing until next interrupt
+    while(1) {
+        // Just make sure the watchdog is working and just do nothing until the next interrupt
+        check_watchdog();
+    }
 }

@@ -39,6 +39,7 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 
 extern void key_stub();
+extern void timer_stub();
 
 void idt_init() {
     idtr.base = (uintptr_t)&idt[0];
@@ -49,6 +50,7 @@ void idt_init() {
         vectors[vector] = true;
     }
 
+    idt_set_descriptor(32, timer_stub, 0x8E);
     idt_set_descriptor(33, key_stub, 0x8E);
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT

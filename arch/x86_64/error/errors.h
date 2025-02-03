@@ -38,6 +38,7 @@ const char* errorcode[] = {
     // These are issues that are non CPU exceptions like memory errors (such as SSP)
     "SSP VIOLATION",             // 31
     "KERNEL PANIC (GENERIC)",    // 32
+    "WATCHDOG TIMEOUT",          // 33
 };
 
 #endif
